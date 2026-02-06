@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoRide - Gestion</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page">
+    <header class="top-bar">
+      <div class="top-bar__content">
+        <div class="logo">
+          <img src="logo.png" alt="EcoRide" class="logo__img" />
+        </div>
+        <nav class="top-nav">
+          <a class="top-nav__link" href="#">Contactez-nous</a>
+          <a class="top-nav__button" href="conn.html">S'authentifier</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="admin-card" id="auth-card">
+        <h1 class="admin-title">Accès gestion</h1>
+        <p class="admin-subtitle">
+          Entrez le mot de passe pour afficher la liste des passagers et des
+          chauffeurs.
+        </p>
+
+        <form class="admin-auth" id="auth-form">
+          <label class="admin-label" for="admin-password">Mot de passe</label>
+          <input
+            class="admin-input"
+            id="admin-password"
+            type="password"
+            placeholder="Mot de passe"
+            autocomplete="current-password"
+            required
+          />
+          <div class="admin-actions">
+            <button class="admin-button" type="submit">Accéder</button>
+          </div>
+          <p class="admin-error is-hidden" id="auth-error">
+            Mot de passe incorrect.
+          </p>
+        </form>
+      </section>
+
+      <section class="admin is-hidden" id="admin-panel">
+        <div class="admin-header">
+          <h2 class="admin-section-title">Tableau de gestion</h2>
+          <div class="admin-header__actions">
+            <button class="admin-button admin-button--ghost" id="export-pass">
+              Exporter `pass.json`
+            </button>
+            <button class="admin-button admin-button--ghost" id="export-chauf">
+              Exporter `chauf.json`
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-import">
+          <div class="admin-import__block">
+            <div class="admin-import__title">Importer un fichier</div>
+            <div class="admin-import__hint">
+              Importer `pass.json` ou `chauf.json` pour recharger la liste.
+            </div>
+          </div>
+          <input
+            class="admin-file"
+            id="import-file"
+            type="file"
+            accept=".json"
+          />
+        </div>
+
+        <section class="admin-grid">
+          <article class="admin-list">
+            <div class="admin-list__header">
+              <h3>Passagers</h3>
+              <span class="admin-badge" id="passagers-count">0</span>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="passagers-table">
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Créé le</th>
+                    <th>Clé</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="admin-list">
+            <div class="admin-list__header">
+              <h3>Chauffeurs</h3>
+              <span class="admin-badge" id="chauffeurs-count">0</span>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="chauffeurs-table">
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Date naissance</th>
+                    <th>Pièce ID</th>
+                    <th>Permis</th>
+                    <th>Créé le</th>
+                    <th>Clé</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>eco_ride@entreprise.com</span>
+      <a href="#" class="footer__link">mentions légal</a>
+    </footer>
+
+    <script>
+      const ALLOWED_PASSWORDS = new Set(["castthering", "eskaloga"]);
+
+      const authCard = document.getElementById("auth-card");
+      const authForm = document.getElementById("auth-form");
+      const authError = document.getElementById("auth-error");
+      const adminPanel = document.getElementById("admin-panel");
+
+      const importFile = document.getElementById("import-file");
+      const exportPassBtn = document.getElementById("export-pass");
+      const exportChaufBtn = document.getElementById("export-chauf");
+
+      const passagersCount = document.getElementById("passagers-count");
+      const chauffeursCount = document.getElementById("chauffeurs-count");
+      const passagersTableBody = document.querySelector(
+        "#passagers-table tbody"
+      );
+      const chauffeursTableBody = document.querySelector(
+        "#chauffeurs-table tbody"
+      );
+
+      const LS_PASSAGERS = "ecoride_passagers";
+      const LS_CHAUFFEURS = "ecoride_chauffeurs";
+      const AUTH_KEY = "ecoride_gest_authed";
+
+      const escapeHtml = (s) =>
+        String(s ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+
+      const formatDateTime = (iso) => {
+        if (!iso) return "";
+        const d = new Date(iso);
+        if (Number.isNaN(d.getTime())) return String(iso);
+        return d.toLocaleString("fr-FR");
+      };
+
+      const maskKey = (k) => {
+        const key = String(k ?? "");
+        if (key.length <= 4) return key;
+        return `${key.slice(0, 2)}••••••${key.slice(-2)}`;
+      };
+
+      const readArray = (key) => {
+        const raw = localStorage.getItem(key);
+        if (!raw) return [];
+        try {
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          return [];
+        }
+      };
+
+      const writeArray = (key, arr) => {
+        localStorage.setItem(key, JSON.stringify(arr));
+      };
+
+      const downloadJson = (filename, data) => {
+        const jsonData = JSON.stringify(data, null, 2);
+        const blob = new Blob([jsonData], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      };
+
+      const render = () => {
+        const passagers = readArray(LS_PASSAGERS);
+        const chauffeurs = readArray(LS_CHAUFFEURS);
+
+        passagersCount.textContent = String(passagers.length);
+        chauffeursCount.textContent = String(chauffeurs.length);
+
+        passagersTableBody.innerHTML = passagers
+          .map(
+            (p) => `
+            <tr>
+              <td>${escapeHtml(p.nom)}</td>
+              <td>${escapeHtml(p.prenom)}</td>
+              <td>${escapeHtml(p.email)}</td>
+              <td>${escapeHtml(formatDateTime(p.dateCreation))}</td>
+              <td><code class="admin-code">${escapeHtml(maskKey(p.cleConnexion))}</code></td>
+            </tr>
+          `
+          )
+          .join("");
+
+        chauffeursTableBody.innerHTML = chauffeurs
+          .map(
+            (c) => `
+            <tr>
+              <td>${escapeHtml(c.nom)}</td>
+              <td>${escapeHtml(c.prenom)}</td>
+              <td>${escapeHtml(c.email)}</td>
+              <td>${escapeHtml(c.dateNaissance)}</td>
+              <td>${escapeHtml(c.idFile)}</td>
+              <td>${escapeHtml(c.licenseFile)}</td>
+              <td>${escapeHtml(formatDateTime(c.dateCreation))}</td>
+              <td><code class="admin-code">${escapeHtml(maskKey(c.cleConnexion))}</code></td>
+            </tr>
+          `
+          )
+          .join("");
+      };
+
+      const showAdmin = () => {
+        authCard.classList.add("is-hidden");
+        adminPanel.classList.remove("is-hidden");
+        render();
+      };
+
+      const hideAdmin = () => {
+        adminPanel.classList.add("is-hidden");
+        authCard.classList.remove("is-hidden");
+      };
+
+      authForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        authError.classList.add("is-hidden");
+
+        const pw = document.getElementById("admin-password").value || "";
+        if (!ALLOWED_PASSWORDS.has(pw)) {
+          authError.classList.remove("is-hidden");
+          sessionStorage.removeItem(AUTH_KEY);
+          return;
+        }
+
+        sessionStorage.setItem(AUTH_KEY, "1");
+        showAdmin();
+      });
+
+      if (sessionStorage.getItem(AUTH_KEY) === "1") {
+        showAdmin();
+      } else {
+        hideAdmin();
+      }
+
+      exportPassBtn.addEventListener("click", () => {
+        downloadJson("pass.json", readArray(LS_PASSAGERS));
+      });
+
+      exportChaufBtn.addEventListener("click", () => {
+        downloadJson("chauf.json", readArray(LS_CHAUFFEURS));
+      });
+
+      importFile.addEventListener("change", async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        try {
+          const text = await file.text();
+          const data = JSON.parse(text);
+          if (!Array.isArray(data)) {
+            alert("Le fichier importé doit contenir un tableau JSON.");
+            return;
+          }
+
+          const name = file.name.toLowerCase();
+          if (name.includes("pass")) {
+            writeArray(LS_PASSAGERS, data);
+          } else if (name.includes("chauf")) {
+            writeArray(LS_CHAUFFEURS, data);
+          } else {
+            alert("Nom de fichier attendu: pass.json ou chauf.json");
+            return;
+          }
+
+          render();
+        } catch (err) {
+          console.error(err);
+          alert("Erreur lors de l'import. Vérifiez que le JSON est valide.");
+        } finally {
+          importFile.value = "";
+        }
+      });
+    </script>
+  </body>
+</html>

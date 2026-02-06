@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoRide - Espace Chauffeur</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page">
+    <header class="top-bar">
+      <div class="top-bar__content">
+        <div class="logo">
+          <img src="logo.png" alt="EcoRide" class="logo__img" />
+        </div>
+        <nav class="top-nav">
+          <a class="top-nav__link" href="#">Contactez-nous</a>
+          <a class="top-nav__button" href="conn.html">S'authentifier</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Barre d'expérience en haut -->
+    <div class="experience-bar-top">
+      <div class="experience-bar-top__level">
+        <span class="experience-bar-top__label">Niveau</span>
+        <span class="experience-bar-top__value" id="level-value-top">1</span>
+      </div>
+      <div class="experience-bar-top__container">
+        <div class="experience-bar-top__fill" id="experience-bar-fill-top"></div>
+      </div>
+    </div>
+
+    <main class="content">
+      <section class="chauffeur-header">
+        <h1 class="chauffeur-header__title">Espace Chauffeur</h1>
+        <p class="chauffeur-header__subtitle">Gérez vos trajets et vos passagers</p>
+      </section>
+
+      <section class="chauffeur-stats">
+        <div class="chauffeur-stat-card">
+          <div class="chauffeur-stat-card__icon">🚗</div>
+          <div class="chauffeur-stat-card__value">12</div>
+          <div class="chauffeur-stat-card__label">Trajets effectués</div>
+        </div>
+        <div class="chauffeur-stat-card">
+          <div class="chauffeur-stat-card__icon">⭐</div>
+          <div class="chauffeur-stat-card__value">4.8</div>
+          <div class="chauffeur-stat-card__label">Note moyenne</div>
+        </div>
+        <div class="chauffeur-stat-card">
+          <div class="chauffeur-stat-card__icon">👥</div>
+          <div class="chauffeur-stat-card__value">45</div>
+          <div class="chauffeur-stat-card__label">Passagers transportés</div>
+        </div>
+        <div class="chauffeur-stat-card">
+          <div class="chauffeur-stat-card__icon">💰</div>
+          <div class="chauffeur-stat-card__value">850€</div>
+          <div class="chauffeur-stat-card__label">Revenus totaux</div>
+        </div>
+      </section>
+
+      <section class="experience-section">
+        <div class="experience-card">
+          <div class="experience-header">
+            <h3 class="experience-title">🎯 Niveau d'expérience</h3>
+            <div class="experience-level">
+              <span class="experience-level-label">Niveau</span>
+              <span class="experience-level-value" id="level-value">1</span>
+            </div>
+          </div>
+          <div class="experience-bar-container">
+            <div class="experience-bar">
+              <div class="experience-bar-fill" id="experience-bar-fill"></div>
+            </div>
+            <div class="experience-text">
+              <span id="current-xp">0</span> / <span id="max-xp">2000</span> XP
+            </div>
+          </div>
+          <div class="experience-info">
+            <p>💡 Chaque trajet terminé vous rapporte <strong>200 XP</strong></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-title">
+        <span>Créer un nouveau trajet</span>
+      </section>
+
+      <section class="chauffeur-form-card">
+        <form class="chauffeur-form">
+          <div class="chauffeur-form__row">
+            <div class="chauffeur-form__group">
+              <label class="chauffeur-form__label">Point de départ</label>
+              <input type="text" placeholder="Ville de départ" class="chauffeur-form__input" />
+            </div>
+            <div class="chauffeur-form__group">
+              <label class="chauffeur-form__label">Point d'arrivée</label>
+              <input type="text" placeholder="Ville d'arrivée" class="chauffeur-form__input" />
+            </div>
+          </div>
+          <div class="chauffeur-form__row">
+            <div class="chauffeur-form__group">
+              <label class="chauffeur-form__label">Date</label>
+              <input type="date" class="chauffeur-form__input" />
+            </div>
+            <div class="chauffeur-form__group">
+              <label class="chauffeur-form__label">Heure de départ</label>
+              <input type="time" class="chauffeur-form__input" />
+            </div>
+            <div class="chauffeur-form__group">
+              <label class="chauffeur-form__label">Durée estimée</label>
+              <input type="text" placeholder="Ex: 6h" class="chauffeur-form__input" />
+            </div>
+            <div class="chauffeur-form__group">
+              <label class="chauffeur-form__label">Prix par passager</label>
+              <input type="number" placeholder="€" class="chauffeur-form__input" />
+            </div>
+          </div>
+          <div class="chauffeur-form__group">
+            <label class="chauffeur-form__label">Places disponibles</label>
+            <input type="number" placeholder="Nombre de places" class="chauffeur-form__input" min="1" max="8" />
+          </div>
+          <button type="submit" class="chauffeur-form__submit">Publier le trajet</button>
+        </form>
+      </section>
+
+      <section class="section-title" style="margin-top: 48px;">
+        <span>Mes trajets à venir</span>
+      </section>
+
+      <section class="driver-grid">
+        <article class="driver-card">
+          <div class="driver-card__header">
+            <div class="driver-card__route">
+              <span class="driver-card__route-from">📍 Lille</span>
+              <span class="driver-card__route-arrow">→</span>
+              <span class="driver-card__route-to">📍 Tour</span>
+            </div>
+            <div class="driver-card__status">📅 08-24-25 à 14:00</div>
+          </div>
+          <div class="driver-card__details">
+            <span>⏱️ 6h</span>
+            <span>💰 25€/passager</span>
+            <span>👥 3/4 places</span>
+          </div>
+          <div class="driver-card__passengers">
+            <strong>Passagers :</strong>
+            <ul class="driver-card__passengers-list">
+              <li>👤 Marie DUPONT</li>
+              <li>👤 Jean MARTIN</li>
+              <li>👤 Sophie BERNARD</li>
+            </ul>
+          </div>
+          <button class="driver-card__button">Modifier</button>
+        </article>
+
+        <article class="driver-card">
+          <div class="driver-card__header">
+            <div class="driver-card__route">
+              <span class="driver-card__route-from">📍 Paris</span>
+              <span class="driver-card__route-arrow">→</span>
+              <span class="driver-card__route-to">📍 Lyon</span>
+            </div>
+            <div class="driver-card__status">📅 08-25-25 à 08:00</div>
+          </div>
+          <div class="driver-card__details">
+            <span>⏱️ 4h</span>
+            <span>💰 30€/passager</span>
+            <span>👥 1/5 places</span>
+          </div>
+          <div class="driver-card__passengers">
+            <strong>Passagers :</strong>
+            <ul class="driver-card__passengers-list">
+              <li>👤 Pierre LEFEBVRE</li>
+            </ul>
+          </div>
+          <button class="driver-card__button">Modifier</button>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>eco_ride@entreprise.com</span>
+      <a href="#" class="footer__link">mentions légal</a>
+    </footer>
+
+    <script>
+      // Configuration de l'expérience
+      const XP_PER_TRIP = 200;
+      const MAX_XP = 2000;
+      const XP_PER_LEVEL = 2000;
+
+      // Charger l'XP depuis localStorage ou initialiser
+      function getCurrentXP() {
+        const storedXP = localStorage.getItem("chauffeur_xp");
+        return storedXP ? parseInt(storedXP, 10) : 0;
+      }
+
+      // Sauvegarder l'XP dans localStorage
+      function saveXP(xp) {
+        localStorage.setItem("chauffeur_xp", xp.toString());
+      }
+
+      // Calculer le niveau basé sur l'XP
+      function calculateLevel(xp) {
+        return Math.floor(xp / XP_PER_LEVEL) + 1;
+      }
+
+      // Ajouter de l'XP (appelé quand un trajet est terminé)
+      function addXP(amount = XP_PER_TRIP) {
+        const currentXP = getCurrentXP();
+        const newXP = Math.min(currentXP + amount, MAX_XP);
+        saveXP(newXP);
+        updateExperienceDisplay();
+        return newXP;
+      }
+
+      // Mettre à jour l'affichage de l'expérience
+      function updateExperienceDisplay() {
+        const currentXP = getCurrentXP();
+        const level = calculateLevel(currentXP);
+        // Calculer le pourcentage de remplissage (0 à 100%)
+        const percentage = (currentXP / MAX_XP) * 100;
+
+        // Mettre à jour le niveau (barre du haut)
+        const levelValueTop = document.getElementById("level-value-top");
+        if (levelValueTop) {
+          levelValueTop.textContent = level;
+        }
+
+        // Mettre à jour la barre d'expérience (barre du haut)
+        const barFillTop = document.getElementById("experience-bar-fill-top");
+        if (barFillTop) {
+          barFillTop.style.width = `${Math.min(percentage, 100)}%`;
+        }
+      }
+
+      // Initialiser l'affichage au chargement
+      updateExperienceDisplay();
+
+      // Exposer la fonction pour ajouter de l'XP (à appeler quand un trajet est terminé)
+      window.addTripXP = addXP;
+    </script>
+  </body>
+</html>

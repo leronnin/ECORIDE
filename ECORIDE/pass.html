@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoRide - Espace Passager</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page">
+    <header class="top-bar">
+      <div class="top-bar__content">
+        <div class="logo">
+          <img src="logo.png" alt="EcoRide" class="logo__img" />
+        </div>
+        <nav class="top-nav">
+          <a class="top-nav__link" href="#">Contactez-nous</a>
+          <a class="top-nav__button" href="conn.html">S'authentifier</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="search-panel">
+        <div class="search-field search-field--autocomplete">
+          <span class="search-field__icon">📍</span>
+          <input
+            type="text"
+            id="depart-input"
+            placeholder="Point de départ"
+            autocomplete="off"
+          />
+          <ul class="autocomplete-list" id="depart-list"></ul>
+        </div>
+        <div class="search-field search-field--autocomplete">
+          <span class="search-field__icon">↗</span>
+          <input
+            type="text"
+            id="arrivee-input"
+            placeholder="Point d'arrivée"
+            autocomplete="off"
+          />
+          <ul class="autocomplete-list" id="arrivee-list"></ul>
+        </div>
+        <div class="search-field">
+          <span class="search-field__icon">📅</span>
+          <input type="date" id="date-input" />
+        </div>
+        <div class="search-field">
+          <span class="search-field__icon">🕒</span>
+          <input type="time" id="heure-input" />
+        </div>
+        <button class="search-button" type="button" id="search-button">Rechercher</button>
+      </section>
+
+      <section class="section-title">
+        <span id="trajets-title">Trajets disponibles</span>
+      </section>
+
+      <section class="driver-grid" id="trajets-container">
+        <!-- Les trajets seront chargés dynamiquement par JavaScript -->
+      </section>
+
+      <section class="section-title" style="margin-top: 48px;">
+        <span>Mes réservations</span>
+      </section>
+
+      <section class="driver-grid">
+        <article class="driver-card">
+          <div class="driver-card__avatar">👤</div>
+          <h3 class="driver-card__name">M. Philippe DAGO</h3>
+          <div class="driver-card__route">
+            <span class="driver-card__route-from">📍 Lille</span>
+            <span class="driver-card__route-arrow">→</span>
+            <span class="driver-card__route-to">📍 Tour</span>
+          </div>
+          <div class="driver-card__details">
+            <span>📅 08-24-25</span>
+            <span>🕒 14:00</span>
+            <span>💰 25€</span>
+          </div>
+          <div class="driver-card__status">✅ Confirmé</div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>eco_ride@entreprise.com</span>
+      <a href="#" class="footer__link">mentions légal</a>
+    </footer>
+
+    <script>
+      let garesData = null;
+
+      // Charger les données des gares
+      fetch("gares.json")
+        .then((response) => response.json())
+        .then((data) => {
+          garesData = data;
+        })
+        .catch((error) => {
+          console.error("Erreur lors du chargement des gares:", error);
+        });
+
+      function filterGares(searchTerm, gares) {
+        if (!searchTerm || searchTerm.trim().length === 0) {
+          // Afficher toutes les gares si le champ est vide
+          return gares;
+        }
+        const term = searchTerm.toLowerCase().trim();
+        return gares.filter((gare) =>
+          gare.toLowerCase().includes(term)
+        );
+      }
+
+      function createAutocompleteList(filteredGares, input, listElement) {
+        listElement.innerHTML = "";
+        if (filteredGares.length === 0) {
+          listElement.classList.remove("is-visible");
+          return;
+        }
+
+        filteredGares.forEach((gare) => {
+          const li = document.createElement("li");
+          li.className = "autocomplete-item";
+          li.textContent = gare;
+          li.addEventListener("click", () => {
+            input.value = gare;
+            listElement.classList.remove("is-visible");
+            // Déclencher la recherche après sélection
+            setTimeout(() => {
+              if (window.performSearch) {
+                window.performSearch();
+              }
+            }, 150);
+          });
+          listElement.appendChild(li);
+        });
+
+        listElement.classList.add("is-visible");
+      }
+
+      function setupAutocomplete(inputId, listId) {
+        const input = document.getElementById(inputId);
+        const list = document.getElementById(listId);
+        let selectedIndex = -1;
+
+        function updateAutocomplete() {
+          if (!garesData) return;
+          const searchTerm = input.value.trim();
+          const filtered = filterGares(searchTerm, garesData.Gares);
+          createAutocompleteList(filtered, input, list);
+          selectedIndex = -1; // Réinitialiser l'index à chaque mise à jour
+        }
+
+        // Mise à jour en temps réel à chaque lettre tapée
+        input.addEventListener("input", (e) => {
+          updateAutocomplete();
+        });
+
+        // Afficher la liste au focus si du texte est présent
+        input.addEventListener("focus", (e) => {
+          updateAutocomplete();
+        });
+
+        // Masquer la liste quand on clique ailleurs
+        document.addEventListener("click", (e) => {
+          if (!input.contains(e.target) && !list.contains(e.target)) {
+            list.classList.remove("is-visible");
+            selectedIndex = -1;
+          }
+        });
+
+        // Navigation au clavier
+        input.addEventListener("keydown", (e) => {
+          const items = list.querySelectorAll(".autocomplete-item");
+          
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            if (items.length > 0) {
+              selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+              items[selectedIndex]?.scrollIntoView({ block: "nearest" });
+              items.forEach((item, idx) => {
+                item.classList.toggle("is-selected", idx === selectedIndex);
+              });
+            }
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            if (items.length > 0) {
+              selectedIndex = Math.max(selectedIndex - 1, -1);
+              items.forEach((item, idx) => {
+                item.classList.toggle("is-selected", idx === selectedIndex);
+              });
+            }
+          } else if (e.key === "Enter") {
+            if (selectedIndex >= 0 && items[selectedIndex]) {
+              e.preventDefault();
+              input.value = items[selectedIndex].textContent;
+              list.classList.remove("is-visible");
+              selectedIndex = -1;
+              // Déclencher la recherche après sélection
+              setTimeout(() => {
+                if (window.performSearch) {
+                  window.performSearch();
+                }
+              }, 100);
+            }
+          } else if (e.key === "Escape") {
+            list.classList.remove("is-visible");
+            selectedIndex = -1;
+          } else {
+            // Réinitialiser l'index pour toute autre touche
+            selectedIndex = -1;
+            items.forEach((item) => {
+              item.classList.remove("is-selected");
+            });
+          }
+        });
+      }
+
+      // Initialiser l'autocomplétion pour les deux champs
+      setupAutocomplete("depart-input", "depart-list");
+      setupAutocomplete("arrivee-input", "arrivee-list");
+
+      // Fonction de recherche
+      const searchButton = document.getElementById("search-button");
+      const departInput = document.getElementById("depart-input");
+      const arriveeInput = document.getElementById("arrivee-input");
+      const dateInput = document.getElementById("date-input");
+      const heureInput = document.getElementById("heure-input");
+      const trajetsContainer = document.getElementById("trajets-container");
+      const trajetsTitle = document.getElementById("trajets-title");
+
+      function getDistance(depart, arrivee) {
+        if (!garesData) return null;
+        const route = garesData.Distance.find(
+          (d) => d.depart === depart && d.arrivee === arrivee
+        );
+        return route ? route.distance : null;
+      }
+
+      function formatDate(dateString) {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+      }
+
+      function formatTime(timeString) {
+        if (!timeString) return "";
+        return timeString.substring(0, 5);
+      }
+
+      function calculatePrice(distance) {
+        if (!distance) return "N/A";
+        const pricePerKm = 0.15;
+        return Math.round(distance * pricePerKm);
+      }
+
+      function calculateDuration(distance) {
+        if (!distance) return "N/A";
+        const avgSpeed = 80;
+        const hours = Math.round((distance / avgSpeed) * 10) / 10;
+        return `${hours}h`;
+      }
+
+      function createTrajetCard(trajet) {
+        const distance = getDistance(trajet.depart, trajet.arrivee);
+        const price = calculatePrice(distance);
+        const duration = calculateDuration(distance);
+
+        return `
+          <article class="driver-card">
+            <div class="driver-card__avatar">👤</div>
+            <h3 class="driver-card__name">${trajet.chauffeur}</h3>
+            <div class="driver-card__route">
+              <span class="driver-card__route-from">📍 ${trajet.depart}</span>
+              <span class="driver-card__route-arrow">→</span>
+              <span class="driver-card__route-to">📍 ${trajet.arrivee}</span>
+            </div>
+            <div class="driver-card__details">
+              <span>📅 ${formatDate(trajet.date)}</span>
+              <span>🕒 ${formatTime(trajet.heure)}</span>
+              <span>⏱️ ${duration}</span>
+              <span>💰 ${price}€</span>
+            </div>
+            <div class="driver-card__rating">${trajet.rating}</div>
+            <button class="driver-card__button">Réserver</button>
+          </article>
+        `;
+      }
+
+      // Trajets par défaut (exemples)
+      let trajetsDisponibles = [
+        {
+          chauffeur: "M. Philippe DAGO",
+          depart: "Gare de Paris",
+          arrivee: "Gare d'Amiens",
+          date: "2025-08-24",
+          heure: "14:00",
+          rating: "★★★★☆",
+        },
+        {
+          chauffeur: "M. Robert HOLM",
+          depart: "Gare de Paris",
+          arrivee: "Gare de Bordeaux",
+          date: "2025-08-24",
+          heure: "10:00",
+          rating: "★★★★★",
+        },
+        {
+          chauffeur: "M. Jean DUPONT",
+          depart: "Gare d'Angers",
+          arrivee: "Gare de Bordeaux",
+          date: "2025-08-25",
+          heure: "08:00",
+          rating: "★★★★☆",
+        },
+      ];
+
+      function displayTrajets(trajets) {
+        if (trajets.length === 0) {
+          trajetsContainer.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+              <p style="font-size: 16px;">Aucun trajet disponible pour cette recherche.</p>
+            </div>
+          `;
+          return;
+        }
+
+        trajetsContainer.innerHTML = trajets
+          .map((trajet) => createTrajetCard(trajet))
+          .join("");
+      }
+
+      function performSearch() {
+        const depart = departInput.value.trim();
+        const arrivee = arriveeInput.value.trim();
+        const date = dateInput.value;
+        const heure = heureInput.value;
+
+        let filteredTrajets = [...trajetsDisponibles];
+
+        if (depart) {
+          filteredTrajets = filteredTrajets.filter(
+            (t) => t.depart.toLowerCase().includes(depart.toLowerCase())
+          );
+        }
+
+        if (arrivee) {
+          filteredTrajets = filteredTrajets.filter(
+            (t) => t.arrivee.toLowerCase().includes(arrivee.toLowerCase())
+          );
+        }
+
+        if (date) {
+          filteredTrajets = filteredTrajets.filter((t) => t.date === date);
+        }
+
+        if (heure) {
+          filteredTrajets = filteredTrajets.filter((t) => t.heure === heure);
+        }
+
+        displayTrajets(filteredTrajets);
+
+        if (depart || arrivee || date || heure) {
+          trajetsTitle.textContent = `${filteredTrajets.length} trajet(s) trouvé(s)`;
+        } else {
+          trajetsTitle.textContent = "Trajets disponibles";
+        }
+      }
+
+      // Exposer performSearch globalement pour l'autocomplétion
+      window.performSearch = performSearch;
+
+      searchButton.addEventListener("click", performSearch);
+
+      // Recherche automatique lors de la sélection dans l'autocomplétion
+      // Utiliser 'blur' pour les inputs texte après sélection
+      departInput.addEventListener("blur", () => {
+        setTimeout(() => performSearch(), 200);
+      });
+      arriveeInput.addEventListener("blur", () => {
+        setTimeout(() => performSearch(), 200);
+      });
+      dateInput.addEventListener("change", performSearch);
+      heureInput.addEventListener("change", performSearch);
+
+      // Afficher les trajets par défaut au chargement
+      displayTrajets(trajetsDisponibles);
+    </script>
+  </body>
+</html>
