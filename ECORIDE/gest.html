@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoRide - Gestion</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page page--gest">
+    <header class="top-bar">
+      <div class="top-bar__content">
+        <div class="logo">
+          <img src="logo.png" alt="EcoRide" class="logo__img" />
+        </div>
+        <nav class="top-nav">
+          <a class="top-nav__link" href="#">Contactez-nous</a>
+          <a class="top-nav__button" href="connect.html" id="login-link">S'authentifier</a>
+          <button class="top-nav__button is-hidden" id="logout-btn" type="button">Déconnexion</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="admin-card" id="auth-card">
+        <h1 class="admin-title">Accès gestion</h1>
+        <p class="admin-subtitle">
+          Entrez le mot de passe pour afficher la liste des passagers et des
+          chauffeurs.
+        </p>
+
+        <form class="admin-auth" id="auth-form">
+          <label class="admin-label" for="admin-password">Mot de passe</label>
+          <input
+            class="admin-input"
+            id="admin-password"
+            type="password"
+            placeholder="Mot de passe"
+            autocomplete="current-password"
+            required
+          />
+          <div class="admin-actions">
+            <button class="admin-button" type="submit">Accéder</button>
+          </div>
+          <p class="admin-error is-hidden" id="auth-error">
+            Mot de passe incorrect.
+          </p>
+        </form>
+      </section>
+
+      <section class="admin admin--locked" id="admin-panel">
+        <div class="admin-header">
+          <h2 class="admin-section-title">Tableau de gestion</h2>
+          <div class="admin-header__actions">
+            <button class="admin-button admin-button--ghost" id="export-pass">
+              Exporter `pass.json`
+            </button>
+            <button class="admin-button admin-button--ghost" id="export-chauf">
+              Exporter `chauf.json`
+            </button>
+            <button class="admin-button" id="export-gest">
+              Exporter `gest.json`
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-import">
+          <div class="admin-import__block">
+            <div class="admin-import__title">Importer un fichier</div>
+            <div class="admin-import__hint">
+              Importer `pass.json` ou `chauf.json` pour recharger la liste.
+            </div>
+          </div>
+          <input
+            class="admin-file"
+            id="import-file"
+            type="file"
+            accept=".json"
+          />
+        </div>
+
+        <section class="admin-grid">
+          <article class="admin-list">
+            <div class="admin-list__header">
+              <h3>Passagers</h3>
+              <span class="admin-badge" id="passagers-count">0</span>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="passagers-table">
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Créé le</th>
+                    <th>Clé</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="admin-list">
+            <div class="admin-list__header">
+              <h3>Chauffeurs</h3>
+              <span class="admin-badge" id="chauffeurs-count">0</span>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="chauffeurs-table">
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Date naissance</th>
+                    <th>Véhicule</th>
+                    <th>Immat</th>
+                    <th>Date immat</th>
+                    <th>Pièce ID</th>
+                    <th>Permis</th>
+                    <th>Créé le</th>
+                    <th>Clé</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section class="admin-grid admin-grid--history">
+          <article class="admin-list">
+            <div class="admin-list__header">
+              <h3>Historique des trajets</h3>
+              <span class="admin-badge" id="trips-count">0</span>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table admin-table--compact" id="trips-table">
+                <thead>
+                  <tr>
+                    <th>Trajet</th>
+                    <th>Places</th>
+                    <th>Status</th>
+                    <th>Trip</th>
+                    <th>Passager</th>
+                    <th>Chauffeur</th>
+                    <th>Mis à jour</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="admin-list">
+            <div class="admin-list__header">
+              <h3>Historique des conversations</h3>
+              <span class="admin-badge" id="chats-count">0</span>
+            </div>
+            <div class="admin-chat-list" id="chats-list"></div>
+          </article>
+        </section>
+
+        <section class="admin-list admin-graph">
+          <div class="admin-list__header">
+            <h3>Chauffeurs - nombre de trajets par semaine</h3>
+            <div class="admin-graph__controls">
+              <label class="admin-label" for="chauffeur-select">Chauffeur</label>
+              <select class="admin-input admin-input--select" id="chauffeur-select"></select>
+            </div>
+          </div>
+          <canvas class="admin-chart" id="trips-chart" width="1100" height="260"></canvas>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>eco_ride@entreprise.com</span>
+      <a href="#" class="footer__link">mentions légal</a>
+    </footer>
+
+    <script>
+      const ALLOWED_PASSWORDS = new Set(["castthering", "eskaloga"]);
+
+      const authCard = document.getElementById("auth-card");
+      const authForm = document.getElementById("auth-form");
+      const authError = document.getElementById("auth-error");
+      const adminPanel = document.getElementById("admin-panel");
+
+      const importFile = document.getElementById("import-file");
+      const exportPassBtn = document.getElementById("export-pass");
+      const exportChaufBtn = document.getElementById("export-chauf");
+      const exportGestBtn = document.getElementById("export-gest");
+      const loginLink = document.getElementById("login-link");
+      const logoutBtn = document.getElementById("logout-btn");
+
+      const passagersCount = document.getElementById("passagers-count");
+      const chauffeursCount = document.getElementById("chauffeurs-count");
+      const passagersTableBody = document.querySelector(
+        "#passagers-table tbody"
+      );
+      const chauffeursTableBody = document.querySelector(
+        "#chauffeurs-table tbody"
+      );
+      const tripsCount = document.getElementById("trips-count");
+      const tripsTableBody = document.querySelector("#trips-table tbody");
+      const chatsCount = document.getElementById("chats-count");
+      const chatsList = document.getElementById("chats-list");
+      const chauffeurSelect = document.getElementById("chauffeur-select");
+      const tripsChart = document.getElementById("trips-chart");
+
+      const LS_PASSAGERS = "ecoride_passagers";
+      const LS_CHAUFFEURS = "ecoride_chauffeurs";
+      const LS_REQUESTS = "ecoride_trip_requests";
+      const LS_CHATS = "ecoride_chats";
+      const AUTH_KEY = "ecoride_gest_authed";
+      const LS_PASSAGERS_ORDER = "ecoride_passagers_order";
+      const LS_CHAUFFEURS_ORDER = "ecoride_chauffeurs_order";
+      const LS_REQUESTS_ORDER = "ecoride_trip_requests_order";
+
+      const escapeHtml = (s) =>
+        String(s ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+
+      const formatDateTime = (iso) => {
+        if (!iso) return "";
+        const d = new Date(iso);
+        if (Number.isNaN(d.getTime())) return String(iso);
+        return d.toLocaleString("fr-FR");
+      };
+
+      const maskKey = (k) => {
+        const key = String(k ?? "");
+        if (key.length <= 4) return key;
+        return `${key.slice(0, 2)}••••••${key.slice(-2)}`;
+      };
+
+      const readArray = (key) => {
+        const raw = localStorage.getItem(key);
+        if (!raw) return [];
+        try {
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          return [];
+        }
+      };
+
+      const readJson = (key, fallback) => {
+        const raw = localStorage.getItem(key);
+        if (!raw) return fallback;
+        try {
+          return JSON.parse(raw);
+        } catch {
+          return fallback;
+        }
+      };
+
+      const writeArray = (key, arr) => {
+        localStorage.setItem(key, JSON.stringify(arr));
+      };
+
+      const reorderByIdList = (items, idList, getId) => {
+        const map = new Map();
+        for (const it of items) {
+          const id = getId(it);
+          if (id) map.set(String(id), it);
+        }
+        const out = [];
+        const used = new Set();
+        for (const id of idList || []) {
+          const k = String(id);
+          const it = map.get(k);
+          if (it) {
+            out.push(it);
+            used.add(k);
+          }
+        }
+        for (const it of items) {
+          const id = getId(it);
+          const k = id ? String(id) : "";
+          if (!k || used.has(k)) continue;
+          out.push(it);
+        }
+        return out;
+      };
+
+      const initSortableTbody = ({ tbody, getItems, setItems, getId, orderKey }) => {
+        if (!tbody) return;
+        let draggingRow = null;
+
+        const isInteractive = (el) =>
+          !!el?.closest?.("button, a, input, select, textarea, label, code, svg, path");
+
+        const persistFromDom = () => {
+          const ids = Array.from(tbody.querySelectorAll("tr"))
+            .map((tr) => tr?.dataset?.id)
+            .filter(Boolean);
+          if (!ids.length) return;
+
+          const items = getItems();
+          const next = reorderByIdList(items, ids, getId);
+          setItems(next);
+          if (orderKey) writeArray(orderKey, ids);
+        };
+
+        tbody.addEventListener("dragstart", (e) => {
+          if (isInteractive(e.target)) {
+            e.preventDefault();
+            return;
+          }
+          const row = e.target.closest("tr");
+          if (!row) return;
+          draggingRow = row;
+          row.classList.add("admin-row--dragging");
+          if (e.dataTransfer) {
+            e.dataTransfer.effectAllowed = "move";
+            e.dataTransfer.setData("text/plain", row.dataset.id || "");
+          }
+        });
+
+        tbody.addEventListener("dragend", () => {
+          if (draggingRow) draggingRow.classList.remove("admin-row--dragging");
+          draggingRow = null;
+        });
+
+        tbody.addEventListener("dragover", (e) => {
+          if (!draggingRow) return;
+          e.preventDefault();
+          const row = e.target.closest("tr");
+          if (!row || row === draggingRow) return;
+          const rect = row.getBoundingClientRect();
+          const after = e.clientY > rect.top + rect.height / 2;
+          tbody.insertBefore(draggingRow, after ? row.nextSibling : row);
+        });
+
+        tbody.addEventListener("drop", (e) => {
+          if (!draggingRow) return;
+          e.preventDefault();
+          persistFromDom();
+          render();
+        });
+      };
+
+      const downloadJson = (filename, data) => {
+        const jsonData = JSON.stringify(data, null, 2);
+        const blob = new Blob([jsonData], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      };
+
+      const formatShort = (s) => {
+        const str = String(s ?? "");
+        if (str.length <= 18) return str;
+        return `${str.slice(0, 8)}…${str.slice(-6)}`;
+      };
+
+      // ISO week helpers for graph
+      const getIsoWeekKey = (dateLike) => {
+        const d0 = new Date(dateLike);
+        if (Number.isNaN(d0.getTime())) return null;
+        const d = new Date(Date.UTC(d0.getFullYear(), d0.getMonth(), d0.getDate()));
+        // Thursday in current week decides the year.
+        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+        const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+        const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+        return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, "0")}`;
+      };
+
+      const addWeeks = (date, weeks) => {
+        const d = new Date(date);
+        d.setDate(d.getDate() + weeks * 7);
+        return d;
+      };
+
+      const renderChats = (requests, chatsObj) => {
+        const threadIds = Object.keys(chatsObj || {});
+        chatsCount.textContent = String(threadIds.length);
+        if (!threadIds.length) {
+          chatsList.innerHTML = `<div class="admin-empty">Aucune conversation.</div>`;
+          return;
+        }
+
+        const byId = new Map(requests.map((r) => [r?.id, r]));
+
+        const items = threadIds
+          .map((id) => {
+            const msgs = Array.isArray(chatsObj[id]) ? chatsObj[id] : [];
+            const last = msgs[msgs.length - 1];
+            const req = byId.get(id);
+            const title = req ? `${req.depart} → ${req.arrivee}` : id;
+            return {
+              id,
+              title,
+              count: msgs.length,
+              lastText: last?.text || "",
+              lastTs: last?.ts || "",
+              sort: Date.parse(req?.updatedAt || req?.decidedAt || req?.createdAt || "") || 0,
+            };
+          })
+          .sort((a, b) => b.sort - a.sort);
+
+        chatsList.innerHTML = items
+          .map(
+            (c) => `
+            <div class="admin-chat-item">
+              <div class="admin-chat-item__main">
+                <div class="admin-chat-item__title">${escapeHtml(c.title)}</div>
+                <div class="admin-chat-item__meta">
+                  <span>${escapeHtml(c.count)} msg</span>
+                  <span>${escapeHtml(formatShort(c.lastText))}</span>
+                  <span>${escapeHtml(c.lastTs)}</span>
+                </div>
+              </div>
+              <button class="admin-button admin-button--ghost" type="button" data-view-chat="${escapeHtml(
+                c.id
+              )}">Voir</button>
+            </div>
+          `
+          )
+          .join("");
+      };
+
+      const renderTrips = (requests) => {
+        tripsCount.textContent = String(requests.length);
+        if (!requests.length) {
+          tripsTableBody.innerHTML = `<tr><td colspan="7">Aucun trajet enregistré.</td></tr>`;
+          return;
+        }
+
+        const order = readArray(LS_REQUESTS_ORDER);
+        const baseSorted = requests
+          .slice()
+          .sort((a, b) => {
+            const da = Date.parse(a?.updatedAt || a?.decidedAt || a?.createdAt || "") || 0;
+            const db = Date.parse(b?.updatedAt || b?.decidedAt || b?.createdAt || "") || 0;
+            return db - da;
+          });
+        const sorted = order?.length
+          ? reorderByIdList(baseSorted, order, (r) => r?.id)
+          : baseSorted;
+
+        tripsTableBody.innerHTML = sorted
+          .map((r) => {
+            const status = r?.status || "";
+            const tripStatus = r?.tripStatus || "";
+            const route = `${r?.depart || ""} → ${r?.arrivee || ""}`.trim();
+            const when = r?.date ? `${r.date} ${r.heure || ""}`.trim() : "";
+            return `
+              <tr draggable="true" data-id="${escapeHtml(r?.id)}">
+                <td>
+                  <div class="admin-trip-title">${escapeHtml(route || r?.voyageId || r?.id)}</div>
+                  <div class="admin-trip-sub">${escapeHtml(when)}</div>
+                </td>
+                <td>${escapeHtml(r?.seats)}</td>
+                <td>${escapeHtml(status)}</td>
+                <td>${escapeHtml(tripStatus)}</td>
+                <td><code class="admin-code">${escapeHtml(maskKey(r?.passagerKey))}</code></td>
+                <td><code class="admin-code">${escapeHtml(maskKey(r?.chauffeurKey))}</code></td>
+                <td>${escapeHtml(formatDateTime(r?.updatedAt || r?.decidedAt || r?.createdAt))}</td>
+              </tr>
+            `;
+          })
+          .join("");
+      };
+
+      const computeTripsByWeek = (requests, chauffeurKeyOrAll) => {
+        const counts = new Map(); // weekKey -> count
+        for (const r of requests) {
+          if (!r) continue;
+          if (chauffeurKeyOrAll && chauffeurKeyOrAll !== "ALL" && r.chauffeurKey !== chauffeurKeyOrAll) {
+            continue;
+          }
+          if (r.status !== "accepted") continue;
+          const t = r.tripStartedAt || r.decidedAt || r.updatedAt || r.createdAt;
+          const wk = getIsoWeekKey(t);
+          if (!wk) continue;
+          counts.set(wk, (counts.get(wk) || 0) + 1);
+        }
+        return counts;
+      };
+
+      const renderChart = (requests) => {
+        if (!tripsChart) return;
+        const ctx = tripsChart.getContext("2d");
+        if (!ctx) return;
+
+        const chosen = chauffeurSelect.value || "ALL";
+        const counts = computeTripsByWeek(requests, chosen);
+
+        // last 12 weeks labels
+        const now = new Date();
+        const start = addWeeks(now, -11);
+        const labels = [];
+        const values = [];
+        for (let i = 0; i < 12; i++) {
+          const d = addWeeks(start, i);
+          const k = getIsoWeekKey(d);
+          labels.push(k);
+          values.push(counts.get(k) || 0);
+        }
+
+        const w = tripsChart.width;
+        const h = tripsChart.height;
+        ctx.clearRect(0, 0, w, h);
+
+        // background
+        ctx.fillStyle = "rgba(255,255,255,0.75)";
+        ctx.fillRect(0, 0, w, h);
+
+        const pad = 18;
+        const chartW = w - pad * 2;
+        const chartH = h - pad * 2 - 18;
+        const maxV = Math.max(1, ...values);
+        const barW = Math.floor(chartW / values.length) - 10;
+
+        // axis line
+        ctx.strokeStyle = "rgba(0,0,0,0.08)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad, pad + chartH);
+        ctx.lineTo(pad + chartW, pad + chartH);
+        ctx.stroke();
+
+        const grad = ctx.createLinearGradient(0, pad, 0, pad + chartH);
+        grad.addColorStop(0, "rgba(180,58,230,0.9)");
+        grad.addColorStop(1, "rgba(20,125,255,0.9)");
+
+        for (let i = 0; i < values.length; i++) {
+          const v = values[i];
+          const x = pad + i * (barW + 10) + 6;
+          const bh = Math.round((v / maxV) * (chartH - 12));
+          const y = pad + chartH - bh;
+          ctx.fillStyle = grad;
+          ctx.fillRect(x, y, barW, bh);
+
+          // value label
+          ctx.fillStyle = "rgba(45,45,45,0.9)";
+          ctx.font = "12px Segoe UI";
+          ctx.fillText(String(v), x + Math.max(0, barW / 2 - 4), y - 6);
+
+          // week label (short)
+          const lab = String(labels[i] || "").slice(-3);
+          ctx.fillStyle = "rgba(80,80,90,0.85)";
+          ctx.font = "11px Segoe UI";
+          ctx.fillText(lab, x, pad + chartH + 16);
+        }
+      };
+
+      const render = () => {
+        const passagersRaw = readArray(LS_PASSAGERS);
+        const chauffeursRaw = readArray(LS_CHAUFFEURS);
+        const requests = readArray(LS_REQUESTS);
+        const chatsObj = readJson(LS_CHATS, {});
+
+        const passOrder = readArray(LS_PASSAGERS_ORDER);
+        const chaufOrder = readArray(LS_CHAUFFEURS_ORDER);
+        const passagers = passOrder?.length
+          ? reorderByIdList(passagersRaw, passOrder, (p) => p?.cleConnexion || p?.email)
+          : passagersRaw;
+        const chauffeurs = chaufOrder?.length
+          ? reorderByIdList(chauffeursRaw, chaufOrder, (c) => c?.cleConnexion || c?.email)
+          : chauffeursRaw;
+
+        // Normalise (si ordre appliqué, on ré-écrit pour garder la cohérence)
+        if (passagers !== passagersRaw) writeArray(LS_PASSAGERS, passagers);
+        if (chauffeurs !== chauffeursRaw) writeArray(LS_CHAUFFEURS, chauffeurs);
+
+        passagersCount.textContent = String(passagers.length);
+        chauffeursCount.textContent = String(chauffeurs.length);
+
+        passagersTableBody.innerHTML = passagers
+          .map(
+            (p) => `
+            <tr draggable="true" data-id="${escapeHtml(p?.cleConnexion || p?.email)}">
+              <td>${escapeHtml(p.nom)}</td>
+              <td>${escapeHtml(p.prenom)}</td>
+              <td>${escapeHtml(p.email)}</td>
+              <td>${escapeHtml(formatDateTime(p.dateCreation))}</td>
+              <td>
+                <div class="admin-key" data-masked="false">
+                  <code class="admin-code admin-code--key" data-key="${escapeHtml(
+                    p.cleConnexion
+                  )}">${escapeHtml(p.cleConnexion)}</code>
+                  <button
+                    class="admin-key__toggle"
+                    type="button"
+                    aria-label="Masquer la clé"
+                    title="Masquer / Afficher"
+                  >
+                    <svg
+                      class="admin-lock"
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <g class="admin-lock__shackle">
+                        <path
+                          d="M8 11V8.5C8 6.01472 10.0147 4 12.5 4C14.9853 4 17 6.01472 17 8.5V11"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
+                      </g>
+                      <path
+                        d="M7 11H18C19.1046 11 20 11.8954 20 13V19C20 20.1046 19.1046 21 18 21H7C5.89543 21 5 20.1046 5 19V13C5 11.8954 5.89543 11 7 11Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M12.5 15V17"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `
+          )
+          .join("");
+
+        chauffeursTableBody.innerHTML = chauffeurs
+          .map(
+            (c) => `
+            <tr draggable="true" data-id="${escapeHtml(c?.cleConnexion || c?.email)}">
+              <td>${escapeHtml(c.nom)}</td>
+              <td>${escapeHtml(c.prenom)}</td>
+              <td>${escapeHtml(c.email)}</td>
+              <td>${escapeHtml(c.dateNaissance)}</td>
+              <td>${escapeHtml(c.vehiculeModele)}</td>
+              <td>${escapeHtml(c.vehiculeImmat)}</td>
+              <td>${escapeHtml(c.vehiculeDateImmat)}</td>
+              <td>${escapeHtml(c.idFile)}</td>
+              <td>${escapeHtml(c.licenseFile)}</td>
+              <td>${escapeHtml(formatDateTime(c.dateCreation))}</td>
+              <td>
+                <div class="admin-key" data-masked="false">
+                  <code class="admin-code admin-code--key" data-key="${escapeHtml(
+                    c.cleConnexion
+                  )}">${escapeHtml(c.cleConnexion)}</code>
+                  <button
+                    class="admin-key__toggle"
+                    type="button"
+                    aria-label="Masquer la clé"
+                    title="Masquer / Afficher"
+                  >
+                    <svg
+                      class="admin-lock"
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <g class="admin-lock__shackle">
+                        <path
+                          d="M8 11V8.5C8 6.01472 10.0147 4 12.5 4C14.9853 4 17 6.01472 17 8.5V11"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
+                      </g>
+                      <path
+                        d="M7 11H18C19.1046 11 20 11.8954 20 13V19C20 20.1046 19.1046 21 18 21H7C5.89543 21 5 20.1046 5 19V13C5 11.8954 5.89543 11 7 11Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M12.5 15V17"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `
+          )
+          .join("");
+
+        // Populate chauffeur select
+        if (chauffeurSelect) {
+          const prev = chauffeurSelect.value || "ALL";
+          const opts = [
+            { value: "ALL", label: "Tous les chauffeurs" },
+            ...chauffeurs
+              .filter((c) => c?.cleConnexion)
+              .map((c) => ({
+                value: c.cleConnexion,
+                label: `${c.prenom || ""} ${c.nom || ""}`.trim() || c.cleConnexion,
+              })),
+          ];
+          chauffeurSelect.innerHTML = opts
+            .map((o) => `<option value="${escapeHtml(o.value)}">${escapeHtml(o.label)}</option>`)
+            .join("");
+          if (opts.some((o) => o.value === prev)) chauffeurSelect.value = prev;
+        }
+
+        renderTrips(requests);
+        renderChats(requests, chatsObj);
+        renderChart(requests);
+
+        // Drag & drop reordering (maintien clic + glisser)
+        initSortableTbody({
+          tbody: passagersTableBody,
+          getItems: () => readArray(LS_PASSAGERS),
+          setItems: (arr) => writeArray(LS_PASSAGERS, arr),
+          getId: (p) => p?.cleConnexion || p?.email,
+          orderKey: LS_PASSAGERS_ORDER,
+        });
+        initSortableTbody({
+          tbody: chauffeursTableBody,
+          getItems: () => readArray(LS_CHAUFFEURS),
+          setItems: (arr) => writeArray(LS_CHAUFFEURS, arr),
+          getId: (c) => c?.cleConnexion || c?.email,
+          orderKey: LS_CHAUFFEURS_ORDER,
+        });
+        initSortableTbody({
+          tbody: tripsTableBody,
+          getItems: () => readArray(LS_REQUESTS),
+          setItems: (arr) => writeArray(LS_REQUESTS, arr),
+          getId: (r) => r?.id,
+          orderKey: LS_REQUESTS_ORDER,
+        });
+      };
+
+      // Afficher / masquer une clé (delegation)
+      adminPanel.addEventListener("click", (e) => {
+        const btn = e.target.closest(".admin-key__toggle");
+        if (!btn) return;
+
+        const wrapper = btn.closest(".admin-key");
+        const codeEl = wrapper?.querySelector(".admin-code--key");
+        if (!wrapper || !codeEl) return;
+
+        const fullKey = codeEl.dataset.key || "";
+        const isMasked = wrapper.dataset.masked === "true";
+
+        if (isMasked) {
+          codeEl.textContent = fullKey;
+          wrapper.dataset.masked = "false";
+          btn.setAttribute("aria-label", "Masquer la clé");
+        } else {
+          codeEl.textContent = maskKey(fullKey);
+          wrapper.dataset.masked = "true";
+          btn.setAttribute("aria-label", "Afficher la clé");
+        }
+      });
+
+      const showAdmin = () => {
+        authCard.classList.add("is-hidden");
+        adminPanel.classList.remove("admin--locked");
+        render();
+        if (logoutBtn) logoutBtn.classList.remove("is-hidden");
+        if (loginLink) loginLink.classList.add("is-hidden");
+      };
+
+      const hideAdmin = () => {
+        adminPanel.classList.add("admin--locked");
+        authCard.classList.remove("is-hidden");
+        if (logoutBtn) logoutBtn.classList.add("is-hidden");
+        if (loginLink) loginLink.classList.remove("is-hidden");
+      };
+
+      logoutBtn?.addEventListener("click", () => {
+        sessionStorage.removeItem(AUTH_KEY);
+        hideAdmin();
+      });
+
+      authForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        authError.classList.add("is-hidden");
+
+        const pw = document.getElementById("admin-password").value || "";
+        if (!ALLOWED_PASSWORDS.has(pw)) {
+          authError.classList.remove("is-hidden");
+          sessionStorage.removeItem(AUTH_KEY);
+          return;
+        }
+
+        sessionStorage.setItem(AUTH_KEY, "1");
+        showAdmin();
+      });
+
+      if (sessionStorage.getItem(AUTH_KEY) === "1") {
+        showAdmin();
+      } else {
+        hideAdmin();
+      }
+
+      exportPassBtn.addEventListener("click", () => {
+        downloadJson("pass.json", readArray(LS_PASSAGERS));
+      });
+
+      exportChaufBtn.addEventListener("click", () => {
+        downloadJson("chauf.json", readArray(LS_CHAUFFEURS));
+      });
+
+      exportGestBtn.addEventListener("click", () => {
+        const passagers = readArray(LS_PASSAGERS);
+        const chauffeurs = readArray(LS_CHAUFFEURS);
+        const tripRequests = readArray(LS_REQUESTS);
+        const chats = readJson(LS_CHATS, {});
+
+        // Stats (all chauffeurs)
+        const stats = {};
+        for (const c of chauffeurs) {
+          if (!c?.cleConnexion) continue;
+          const counts = computeTripsByWeek(tripRequests, c.cleConnexion);
+          stats[c.cleConnexion] = Object.fromEntries(counts.entries());
+        }
+
+        downloadJson("gest.json", {
+          generatedAt: new Date().toISOString(),
+          passagers,
+          chauffeurs,
+          tripRequests,
+          chats,
+          tripsByWeekByChauffeurKey: stats,
+        });
+      });
+
+      importFile.addEventListener("change", async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        try {
+          const text = await file.text();
+          const data = JSON.parse(text);
+          if (!Array.isArray(data)) {
+            alert("Le fichier importé doit contenir un tableau JSON.");
+            return;
+          }
+
+          const name = file.name.toLowerCase();
+          if (name.includes("pass")) {
+            writeArray(LS_PASSAGERS, data);
+          } else if (name.includes("chauf")) {
+            writeArray(LS_CHAUFFEURS, data);
+          } else {
+            alert("Nom de fichier attendu: pass.json ou chauf.json");
+            return;
+          }
+
+          render();
+        } catch (err) {
+          console.error(err);
+          alert("Erreur lors de l'import. Vérifiez que le JSON est valide.");
+        } finally {
+          importFile.value = "";
+        }
+      });
+
+      // Chat viewer modal (admin)
+      const adminModal = document.createElement("div");
+      adminModal.className = "admin-modal is-hidden";
+      adminModal.innerHTML = `
+        <div class="admin-modal__overlay"></div>
+        <div class="admin-modal__panel">
+          <div class="admin-modal__header">
+            <div class="admin-modal__title" id="admin-modal-title">Conversation</div>
+            <button class="admin-modal__close" type="button">×</button>
+          </div>
+          <div class="admin-modal__body" id="admin-modal-body"></div>
+        </div>
+      `;
+      document.body.appendChild(adminModal);
+
+      const closeAdminModal = () => adminModal.classList.add("is-hidden");
+      adminModal.querySelector(".admin-modal__overlay").addEventListener("click", closeAdminModal);
+      adminModal.querySelector(".admin-modal__close").addEventListener("click", closeAdminModal);
+
+      const openChatThread = (threadId) => {
+        const requests = readArray(LS_REQUESTS);
+        const chatsObj = readJson(LS_CHATS, {});
+        const req = requests.find((r) => r?.id === threadId);
+        const title = req ? `${req.depart} → ${req.arrivee}` : threadId;
+        const messages = Array.isArray(chatsObj?.[threadId]) ? chatsObj[threadId] : [];
+
+        document.getElementById("admin-modal-title").textContent = `Conversation - ${title}`;
+        document.getElementById("admin-modal-body").innerHTML = messages.length
+          ? messages
+              .map(
+                (m) => `
+                <div class="admin-msg admin-msg--${escapeHtml(m.from)}">
+                  <div class="admin-msg__bubble">${escapeHtml(m.text)}</div>
+                  <div class="admin-msg__meta">${escapeHtml(m.ts)}</div>
+                </div>
+              `
+              )
+              .join("")
+          : `<div class="admin-empty">Aucun message.</div>`;
+
+        adminModal.classList.remove("is-hidden");
+      };
+
+      adminPanel.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-view-chat]");
+        if (!btn) return;
+        openChatThread(btn.dataset.viewChat);
+      });
+
+      chauffeurSelect?.addEventListener("change", () => {
+        render();
+      });
+
+      window.addEventListener("storage", (e) => {
+        if ([LS_PASSAGERS, LS_CHAUFFEURS, LS_REQUESTS, LS_CHATS].includes(e.key)) {
+          if (!adminPanel.classList.contains("is-hidden")) render();
+        }
+      });
+    </script>
+  </body>
+</html>

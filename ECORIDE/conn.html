@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoRide - Inscription</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page page--center">
+    <header class="top-bar">
+      <div class="top-bar__content">
+        <div class="logo">
+          <img src="logo.png" alt="EcoRide" class="logo__img" />
+        </div>
+        <nav class="top-nav">
+          <a class="top-nav__link" href="#">Contactez-nous</a>
+          <a class="top-nav__button" href="connect.html">Se connecter</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="auth" id="auth-root">
+      <div class="auth__logo">
+        <img src="logo.png" alt="EcoRide" class="auth__logo-img" />
+      </div>
+      <div class="auth__choices">
+        <div class="auth__choice" id="select-chauffeur" role="button">
+          <span class="auth__icon"
+            ><img
+              src="img/logo_passager.png"
+              alt=""
+              aria-hidden="true"
+              class="icon-fill-img"
+          /></span>
+          <span>Chauffeur</span>
+        </div>
+        <div class="auth__choice" id="select-passager" role="button">
+          <span class="auth__icon"
+            ><img
+              src="img/logo_passager.png"
+              alt=""
+              aria-hidden="true"
+              class="icon-fill-img"
+          /></span>
+          <span>Passager</span>
+        </div>
+      </div>
+      <section class="passager is-hidden" id="passager-section">
+        <button class="google-button" type="button">
+          S'authentifier via Google
+        </button>
+        <form class="passager__form is-hidden" id="passager-form">
+          <div class="passager__form-group">
+            <label class="passager__label" for="passager-nom">
+              <span class="passager__icon"
+                ><img
+                  src="img/logo_passager.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="form-icon-img"
+              /></span>
+              Nom
+            </label>
+            <input
+              id="passager-nom"
+              type="text"
+              placeholder="Entrez votre nom"
+              class="passager__input"
+              required
+            />
+          </div>
+          <div class="passager__form-group">
+            <label class="passager__label" for="passager-prenom">
+              <span class="passager__icon"
+                ><img
+                  src="img/logo_passager.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="form-icon-img"
+              /></span>
+              Prénom
+            </label>
+            <input
+              id="passager-prenom"
+              type="text"
+              placeholder="Entrez votre prénom"
+              class="passager__input"
+              required
+            />
+          </div>
+          <div class="passager__form-group">
+            <label class="passager__label" for="passager-email">
+              <span class="passager__icon"
+                ><img
+                  src="img/mail.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="form-icon-img"
+              /></span>
+              Email
+            </label>
+            <input
+              id="passager-email"
+              type="email"
+              placeholder="exemple@email.com"
+              class="passager__input"
+              required
+            />
+          </div>
+          <button type="submit" class="passager__submit">
+            Créer mon compte
+          </button>
+        </form>
+      </section>
+
+      <section class="process is-hidden" id="chauffeur-process">
+        <div class="process__steps">
+          <div class="step is-active" data-step="1">
+            <div class="step__icon">
+              <img
+                src="img/e_billet.png"
+                alt=""
+                aria-hidden="true"
+                class="step__icon-img"
+              />
+            </div>
+            <div class="step__label">Dépôts de documents<br />et enregistrement</div>
+          </div>
+          <div class="step" data-step="2">
+            <div class="step__icon">
+              <img
+                src="img/eye.png"
+                alt=""
+                aria-hidden="true"
+                class="step__icon-img"
+              />
+            </div>
+            <div class="step__label">Vérification des documents</div>
+          </div>
+          <div class="step" data-step="3">
+            <div class="step__icon">
+              <img
+                src="img/circ.png"
+                alt=""
+                aria-hidden="true"
+                class="step__icon-img"
+              />
+            </div>
+            <div class="step__label">Accès fournis à la plateforme</div>
+          </div>
+        </div>
+
+        <div class="process__banner">
+          <span class="process__banner-icon process__banner-icon--chauffeur"
+            ><img
+              src="img/lochau.png"
+              alt=""
+              aria-hidden="true"
+              class="icon-fill-img"
+          /></span>
+          <span>Chauffeur</span>
+        </div>
+
+        <div class="process__card-wrapper">
+          <div class="process__card" id="step-1-content">
+            <div class="process__inputs">
+              <input type="text" id="date-naissance" placeholder="Date de naissance (dd-mm-yyyy)" />
+              <input type="text" id="nom" placeholder="Nom" />
+              <input type="text" id="prenom" placeholder="Prénom" />
+              <input type="email" id="email-chauffeur" placeholder="Email" />
+              <input type="text" id="vehicule-modele" placeholder="Modèle du véhicule (électrique)" />
+              <input type="text" id="vehicule-immat" placeholder="Immatriculation" />
+              <input type="date" id="vehicule-date-immat" placeholder="Date 1ère immatriculation" />
+            </div>
+            <div class="process__uploads">
+              <label class="upload-field" for="id-upload">
+                <span class="upload-field__icon">⬇</span>
+                <span
+                  class="upload-field__text"
+                  data-default="Importer votre pièce d'identité (jpg, png, pdf)"
+                >
+                  Importer votre pièce d'identité (jpg, png, pdf)
+                </span>
+                <input
+                  id="id-upload"
+                  class="upload-field__input"
+                  type="file"
+                  accept=".jpg,.jpeg,.png,.pdf"
+                />
+              </label>
+              <label class="upload-field" for="license-upload">
+                <span class="upload-field__icon">⬇</span>
+                <span
+                  class="upload-field__text"
+                  data-default="Importer votre permis de conduire (jpg, png, pdf)"
+                >
+                  Importer votre permis de conduire (jpg, png, pdf)
+                </span>
+                <input
+                  id="license-upload"
+                  class="upload-field__input"
+                  type="file"
+                  accept=".jpg,.jpeg,.png,.pdf"
+                />
+              </label>
+            </div>
+            <div class="process__actions">
+              <button class="next-button" id="next-step" type="button">
+                Étape suivante →
+              </button>
+            </div>
+          </div>
+
+          <div class="process__card is-hidden" id="step-2-content">
+            <div class="process__message">
+              <p class="process__message-text">
+                La vérification des documents prend une semaine, par la suite vous recevrez un mail dans lequel vous sera communiqué votre clé unique d'accès.
+              </p>
+            </div>
+            <div class="process__actions">
+              <button class="next-button" id="next-step-2" type="button">
+                Étape suivante →
+              </button>
+            </div>
+          </div>
+
+          <div class="process__card is-hidden" id="step-3-content">
+            <div class="process__message">
+              <p class="process__message-text">
+                Votre enregistrement a été pris en compte et une clé de connexion vous sera envoyée dans votre boîte mail.
+              </p>
+            </div>
+            <div class="process__actions">
+              <button class="next-button" id="finalize-button" type="button">
+                Terminer
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Popup Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">
+            <img src="img/tr.png" alt="" aria-hidden="true" class="inline-icon-img" />Inscription
+            réussie !
+          </h2>
+          <button class="modal-close" id="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-message">
+            Votre compte a été créé avec succès ! Vous recevrez votre clé de connexion par email.
+          </p>
+          <div class="modal-key-display">
+            <strong>Votre clé de connexion :</strong>
+            <div class="modal-key" id="modal-key-display"></div>
+            <small>Conservez cette clé précieusement, vous en aurez besoin pour vous connecter.</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-button" id="modal-ok">J'ai compris</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input caché pour charger le fichier pass.json existant -->
+    <input type="file" id="load-pass-file" accept=".json" style="display: none;" />
+
+    <footer class="footer">
+      <span>eco_ride@entreprise.com</span>
+      <a href="#" class="footer__link">mentions légal</a>
+    </footer>
+    <script>
+      const authRoot = document.getElementById("auth-root");
+      const chauffeurChoice = document.getElementById("select-chauffeur");
+      const passagerChoice = document.getElementById("select-passager");
+      const passagerSection = document.getElementById("passager-section");
+      const passagerForm = document.getElementById("passager-form");
+      const processSection = document.getElementById("chauffeur-process");
+      const steps = Array.from(document.querySelectorAll(".step"));
+      const nextButton = document.getElementById("next-step");
+      const idUpload = document.getElementById("id-upload");
+      const licenseUpload = document.getElementById("license-upload");
+      let currentStep = 1;
+      let passagerFormRevealed = false;
+      const maxUploadSize = 7 * 1024 * 1024;
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "application/pdf",
+      ];
+
+      const step1Content = document.getElementById("step-1-content");
+      const step2Content = document.getElementById("step-2-content");
+      const nextStep2Button = document.getElementById("next-step-2");
+
+      const updateSteps = () => {
+        steps.forEach((step) => {
+          const stepIndex = Number(step.dataset.step);
+          step.classList.toggle("is-active", stepIndex === currentStep);
+          step.classList.toggle("is-complete", stepIndex < currentStep);
+        });
+
+        const step3Content = document.getElementById("step-3-content");
+
+        // Afficher/masquer le contenu selon l'étape avec animation fluide
+        if (currentStep === 1) {
+          step2Content.classList.add("is-hidden");
+          step3Content.classList.add("is-hidden");
+          setTimeout(() => {
+            step1Content.classList.remove("is-hidden");
+          }, 50);
+        } else if (currentStep === 2) {
+          step1Content.classList.add("is-hidden");
+          step3Content.classList.add("is-hidden");
+          setTimeout(() => {
+            step2Content.classList.remove("is-hidden");
+          }, 200);
+        } else if (currentStep === 3) {
+          step1Content.classList.add("is-hidden");
+          step2Content.classList.add("is-hidden");
+          setTimeout(() => {
+            step3Content.classList.remove("is-hidden");
+          }, 200);
+        } else {
+          step1Content.classList.add("is-hidden");
+          step2Content.classList.add("is-hidden");
+          step3Content.classList.add("is-hidden");
+        }
+      };
+
+      chauffeurChoice.addEventListener("click", () => {
+        processSection.classList.remove("is-hidden");
+        authRoot.classList.add("is-chauffeur");
+        passagerSection.classList.add("is-hidden");
+        passagerForm.classList.add("is-hidden");
+        passagerFormRevealed = false;
+        currentStep = 1;
+        updateSteps();
+      });
+
+      passagerChoice.addEventListener("click", () => {
+        processSection.classList.add("is-hidden");
+        authRoot.classList.remove("is-chauffeur");
+        passagerSection.classList.remove("is-hidden");
+        if (passagerFormRevealed) {
+          passagerForm.classList.remove("is-hidden");
+        } else {
+          passagerForm.classList.add("is-hidden");
+          passagerFormRevealed = true;
+        }
+      });
+
+      // Fonction de validation de l'étape 1
+      function validateStep1() {
+        const dateNaissance = document.getElementById("date-naissance").value;
+        const nom = document.getElementById("nom").value;
+        const prenom = document.getElementById("prenom").value;
+        const email = document.getElementById("email-chauffeur").value;
+        const vehiculeModele = document.getElementById("vehicule-modele").value;
+        const vehiculeImmat = document.getElementById("vehicule-immat").value;
+        const vehiculeDateImmat = document.getElementById("vehicule-date-immat").value;
+        const idFile = document.getElementById("id-upload").files[0];
+        const licenseFile = document.getElementById("license-upload").files[0];
+
+        if (!dateNaissance || !nom || !prenom || !email) {
+          alert("Veuillez remplir tous les champs obligatoires (Date de naissance, Nom, Prénom, Email).");
+          return false;
+        }
+
+        if (!vehiculeModele || !vehiculeImmat || !vehiculeDateImmat) {
+          alert("Veuillez renseigner les informations du véhicule (modèle, immatriculation, date 1ère immatriculation).");
+          return false;
+        }
+
+        if (!idFile) {
+          alert("Veuillez importer votre pièce d'identité.");
+          return false;
+        }
+
+        if (!licenseFile) {
+          alert("Veuillez importer votre permis de conduire.");
+          return false;
+        }
+
+        return true;
+      }
+
+      nextButton.addEventListener("click", () => {
+        // Validation de l'étape 1 avant de passer à l'étape 2
+        if (currentStep === 1) {
+          if (!validateStep1()) {
+            return;
+          }
+        }
+
+        currentStep = Math.min(currentStep + 1, steps.length);
+        updateSteps();
+      });
+
+      nextStep2Button.addEventListener("click", () => {
+        // L'étape 2 n'a pas besoin de validation, on peut passer directement à l'étape 3
+        currentStep = Math.min(currentStep + 1, steps.length);
+        updateSteps();
+      });
+
+      // Gestion du bouton finaliser (étape 3)
+      const finalizeButton = document.getElementById("finalize-button");
+      if (finalizeButton) {
+        finalizeButton.addEventListener("click", async () => {
+          // Récupérer les données de l'étape 1
+          const dateNaissance = document.getElementById("date-naissance").value;
+          const nom = document.getElementById("nom").value;
+          const prenom = document.getElementById("prenom").value;
+          const email = document.getElementById("email-chauffeur").value;
+          const vehiculeModele = document.getElementById("vehicule-modele").value;
+          const vehiculeImmat = document.getElementById("vehicule-immat").value;
+          const vehiculeDateImmat = document.getElementById("vehicule-date-immat").value;
+          const idFile = document.getElementById("id-upload").files[0];
+          const licenseFile = document.getElementById("license-upload").files[0];
+
+          // Générer la clé de connexion
+          const cleConnexion = generateCleConnexion();
+
+          // Sauvegarder les données dans chauf.json
+          const payload = {
+            dateNaissance,
+            nom,
+            prenom,
+            email,
+            vehiculeModele,
+            vehiculeImmat,
+            vehiculeDateImmat,
+            idFile: idFile ? idFile.name : null,
+            licenseFile: licenseFile ? licenseFile.name : null,
+            cleConnexion,
+            dateCreation: new Date().toISOString(),
+            type: "chauffeur"
+          };
+          saveChauffeurData(payload);
+          await sendToDb("register_chauffeur", payload);
+
+          // Afficher le popup avec la clé
+          showModal(cleConnexion);
+        });
+      }
+
+      const setUploadText = (input, filename) => {
+        const textElement = input.parentElement?.querySelector(
+          ".upload-field__text"
+        );
+        if (!textElement) {
+          return;
+        }
+        textElement.textContent =
+          filename || textElement.dataset.default || "Importer un document";
+        input.parentElement.classList.toggle("is-filled", Boolean(filename));
+      };
+
+      const validateUpload = (input) => {
+        const file = input.files[0];
+        if (!file) {
+          return;
+        }
+
+        if (!allowedTypes.includes(file.type)) {
+          alert("Formats acceptés : jpg, png, pdf.");
+          input.value = "";
+          setUploadText(input, "");
+          return;
+        }
+
+        if (file.size > maxUploadSize) {
+          alert("Taille maximale : 7 Mo.");
+          input.value = "";
+          setUploadText(input, "");
+          return;
+        }
+
+        setUploadText(input, file.name);
+      };
+
+      idUpload.addEventListener("change", (event) => {
+        validateUpload(event.target);
+      });
+
+      licenseUpload.addEventListener("change", (event) => {
+        validateUpload(event.target);
+      });
+
+      // Fonction pour générer une clé de connexion de 10 caractères alphanumériques
+      function generateCleConnexion() {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let cle = "";
+        for (let i = 0; i < 10; i++) {
+          cle += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return cle;
+      }
+
+      // Fonction pour sauvegarder les données passager dans pass.json
+      function saveUserData(userData) {
+        // Charger les données existantes depuis localStorage ou créer un nouveau tableau
+        let users = [];
+        const storedUsers = localStorage.getItem("ecoride_passagers");
+        if (storedUsers) {
+          try {
+            users = JSON.parse(storedUsers);
+          } catch (e) {
+            console.error("Erreur lors du chargement des passagers:", e);
+            users = [];
+          }
+        }
+
+        // Ajouter le nouvel utilisateur
+        users.push(userData);
+
+        // Sauvegarder dans localStorage (tous les passagers)
+        localStorage.setItem("ecoride_passagers", JSON.stringify(users));
+
+        // NOTE: on ne télécharge plus automatiquement pass.json à chaque inscription.
+        // L'export se fait depuis gest.html (toujours à jour).
+      }
+
+      async function sendToDb(action, payload) {
+        try {
+          const res = await fetch("data.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action, ...payload }),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok || !data?.ok) {
+            console.warn("DB insert failed", { status: res.status, data });
+            return { ok: false, data };
+          }
+          return { ok: true, data };
+        } catch (err) {
+          // If PHP isn't reachable (opened as file://, wrong host, etc.)
+          console.warn("DB endpoint unreachable (data.php)", err);
+          return { ok: false, error: String(err) };
+        }
+      }
+
+      // Fonction pour sauvegarder les données chauffeur dans chauf.json
+      function saveChauffeurData(userData) {
+        // Charger les données existantes depuis localStorage ou créer un nouveau tableau
+        let chauffeurs = [];
+        const storedChauffeurs = localStorage.getItem("ecoride_chauffeurs");
+        if (storedChauffeurs) {
+          try {
+            chauffeurs = JSON.parse(storedChauffeurs);
+          } catch (e) {
+            console.error("Erreur lors du chargement des chauffeurs:", e);
+            chauffeurs = [];
+          }
+        }
+
+        // Ajouter le nouveau chauffeur
+        chauffeurs.push(userData);
+
+        // Sauvegarder dans localStorage (tous les chauffeurs)
+        localStorage.setItem("ecoride_chauffeurs", JSON.stringify(chauffeurs));
+
+        // NOTE: on ne télécharge plus automatiquement chauf.json à chaque inscription.
+        // L'export se fait depuis gest.html (toujours à jour).
+      }
+
+      // Fonction générique pour mettre à jour un fichier JSON
+      function updateJsonFile(data, filename) {
+        // Créer le fichier JSON avec toutes les données
+        const jsonData = JSON.stringify(data, null, 2);
+        const blob = new Blob([jsonData], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        
+        // Créer un lien de téléchargement
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      // Fonction pour charger un fichier JSON existant (pass.json ou chauf.json)
+      function loadJsonFile(file, filename) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            const data = JSON.parse(e.target.result);
+            if (Array.isArray(data)) {
+              // Déterminer le type de fichier et sauvegarder dans le bon localStorage
+              if (filename === "pass.json") {
+                localStorage.setItem("ecoride_passagers", JSON.stringify(data));
+                console.log(`${data.length} passager(s) chargé(s) depuis pass.json`);
+              } else if (filename === "chauf.json") {
+                localStorage.setItem("ecoride_chauffeurs", JSON.stringify(data));
+                console.log(`${data.length} chauffeur(s) chargé(s) depuis chauf.json`);
+              }
+            } else {
+              console.error(`Le fichier ${filename} ne contient pas un tableau valide`);
+            }
+          } catch (error) {
+            console.error(`Erreur lors du chargement du fichier ${filename}:`, error);
+            alert("Erreur lors du chargement du fichier. Vérifiez que c'est un fichier JSON valide.");
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      // Charger automatiquement les fichiers au chargement
+      window.addEventListener("load", () => {
+        const storedPassagers = localStorage.getItem("ecoride_passagers");
+        if (storedPassagers) {
+          try {
+            const passagers = JSON.parse(storedPassagers);
+            console.log(`${passagers.length} passager(s) chargé(s) depuis localStorage`);
+          } catch (e) {
+            console.error("Erreur lors du chargement des passagers:", e);
+          }
+        }
+
+        const storedChauffeurs = localStorage.getItem("ecoride_chauffeurs");
+        if (storedChauffeurs) {
+          try {
+            const chauffeurs = JSON.parse(storedChauffeurs);
+            console.log(`${chauffeurs.length} chauffeur(s) chargé(s) depuis localStorage`);
+          } catch (e) {
+            console.error("Erreur lors du chargement des chauffeurs:", e);
+          }
+        }
+      });
+
+      // Fonction pour afficher le modal
+      function showModal(cleConnexion) {
+        const modal = document.getElementById("modal-overlay");
+        const keyDisplay = document.getElementById("modal-key-display");
+        keyDisplay.textContent = cleConnexion;
+        modal.classList.add("is-visible");
+      }
+
+      // Fonction pour fermer le modal
+      function closeModal() {
+        const modal = document.getElementById("modal-overlay");
+        modal.classList.remove("is-visible");
+      }
+
+      // Gestionnaires d'événements pour le modal
+      const modalClose = document.getElementById("modal-close");
+      const modalOk = document.getElementById("modal-ok");
+      const modalOverlay = document.getElementById("modal-overlay");
+
+      if (modalClose) {
+        modalClose.addEventListener("click", closeModal);
+      }
+
+      if (modalOk) {
+        modalOk.addEventListener("click", closeModal);
+      }
+
+      if (modalOverlay) {
+        modalOverlay.addEventListener("click", (e) => {
+          if (e.target === modalOverlay) {
+            closeModal();
+          }
+        });
+      }
+
+      // Gestion du formulaire passager
+      const passagerFormElement = document.getElementById("passager-form");
+      if (passagerFormElement) {
+        passagerFormElement.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          
+          const nom = document.getElementById("passager-nom").value;
+          const prenom = document.getElementById("passager-prenom").value;
+          const email = document.getElementById("passager-email").value;
+
+          if (!nom || !prenom || !email) {
+            alert("Veuillez remplir tous les champs.");
+            return;
+          }
+
+          // Générer la clé de connexion
+          const cleConnexion = generateCleConnexion();
+
+          // Sauvegarder les données
+          const payload = {
+            nom,
+            prenom,
+            email,
+            cleConnexion,
+            dateCreation: new Date().toISOString(),
+            type: "passager"
+          };
+          saveUserData(payload);
+          await sendToDb("register_passager", payload);
+
+          // Afficher le popup avec la clé
+          showModal(cleConnexion);
+        });
+      }
+    </script>
+  </body>
+</html>

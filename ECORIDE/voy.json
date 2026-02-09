@@ -1,0 +1,58 @@
+{
+  "voyages": [
+    {
+      "id": "VOY-AMI-ANG-20260210-0800",
+      "depart": "Gare d'Amiens",
+      "arrivee": "Gare d'Angers",
+      "date": "2026-02-10",
+      "heure": "08:00",
+      "vehiculeModele": "TESLA Model 3",
+      "places": 3
+    },
+    {
+      "id": "VOY-PAR-AMI-20260210-0930",
+      "depart": "Gare de Paris",
+      "arrivee": "Gare d'Amiens",
+      "date": "2026-02-10",
+      "heure": "09:30",
+      "vehiculeModele": "Renault Zoé",
+      "places": 2
+    },
+    {
+      "id": "VOY-PAR-BOR-20260211-0715",
+      "depart": "Gare de Paris",
+      "arrivee": "Gare de Bordeaux",
+      "date": "2026-02-11",
+      "heure": "07:15",
+      "vehiculeModele": "TESLA Model S",
+      "places": 4
+    },
+    {
+      "id": "VOY-BRE-CAL-20260212-0645",
+      "depart": "Gare de Brest",
+      "arrivee": "Gare de Calais",
+      "date": "2026-02-12",
+      "heure": "06:45",
+      "vehiculeModele": "Peugeot e-208",
+      "places": 3
+    },
+    {
+      "id": "VOY-BOR-BIA-20260212-1600",
+      "depart": "Gare de Bordeaux",
+      "arrivee": "Gare de Biarritz",
+      "date": "2026-02-12",
+      "heure": "16:00",
+      "vehiculeModele": "TESLA Model Y",
+      "places": 2
+    },
+    {
+      "id": "VOY-ANG-BRE-20260213-1020",
+      "depart": "Gare d'Angers",
+      "arrivee": "Gare de Brest",
+      "date": "2026-02-13",
+      "heure": "10:20",
+      "vehiculeModele": "Nissan Leaf",
+      "places": 3
+    }
+  ]
+}

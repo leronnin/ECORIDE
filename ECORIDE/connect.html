@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoRide - Connexion</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page">
+    <header class="top-bar">
+      <div class="top-bar__content">
+        <div class="logo">
+          <img src="logo.png" alt="EcoRide" class="logo__img" />
+        </div>
+        <nav class="top-nav">
+          <a class="top-nav__link" href="index.html">Accueil</a>
+          <a class="top-nav__link" href="#">Contactez-nous</a>
+          <a class="top-nav__button" href="conn.html">S'enregistrer</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="admin-card" style="max-width: 620px;">
+        <h1 class="admin-title">Se connecter</h1>
+        <p class="admin-subtitle">
+          Entrez votre <strong>clé unique</strong> (10 caractères) pour accéder à
+          votre espace.
+        </p>
+
+        <form class="admin-auth" id="key-form">
+          <label class="admin-label" for="unique-key">Clé unique</label>
+          <input
+            class="admin-input"
+            id="unique-key"
+            type="text"
+            placeholder="Ex: A1b2C3d4E5"
+            minlength="10"
+            maxlength="10"
+            autocomplete="one-time-code"
+            required
+          />
+          <div class="admin-actions">
+            <button class="admin-button" type="submit">Connexion</button>
+          </div>
+          <p class="admin-error is-hidden" id="key-error">
+            Clé invalide ou inconnue.
+          </p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>eco_ride@entreprise.com</span>
+      <a href="#" class="footer__link">mentions légal</a>
+    </footer>
+
+    <script>
+      const LS_PASSAGERS = "ecoride_passagers";
+      const LS_CHAUFFEURS = "ecoride_chauffeurs";
+
+      const readArray = (key) => {
+        const raw = localStorage.getItem(key);
+        if (!raw) return [];
+        try {
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          return [];
+        }
+      };
+
+      const writeArray = (key, arr) => {
+        localStorage.setItem(key, JSON.stringify(arr));
+      };
+
+      const form = document.getElementById("key-form");
+      const input = document.getElementById("unique-key");
+      const errorEl = document.getElementById("key-error");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        errorEl.classList.add("is-hidden");
+
+        const key = (input.value || "").trim();
+        if (key.length !== 10) {
+          errorEl.classList.remove("is-hidden");
+          return;
+        }
+
+        const passagers = readArray(LS_PASSAGERS);
+        const chauffeurs = readArray(LS_CHAUFFEURS);
+
+        const passager = passagers.find((p) => p?.cleConnexion === key);
+        if (passager) {
+          // 1ère connexion: donner 20 crédits (c)
+          const idx = passagers.findIndex((p) => p?.cleConnexion === key);
+          if (idx >= 0) {
+            const existingCredits = Number(passagers[idx]?.credits);
+            if (!Number.isFinite(existingCredits)) {
+              passagers[idx] = { ...passagers[idx], credits: 20 };
+              writeArray(LS_PASSAGERS, passagers);
+            }
+          }
+          sessionStorage.setItem("ecoride_current_user_type", "passager");
+          sessionStorage.setItem("ecoride_current_user_key", key);
+          window.location.href = "pass.html";
+          return;
+        }
+
+        const chauffeur = chauffeurs.find((c) => c?.cleConnexion === key);
+        if (chauffeur) {
+          sessionStorage.setItem("ecoride_current_user_type", "chauffeur");
+          sessionStorage.setItem("ecoride_current_user_key", key);
+          window.location.href = "chauf.html";
+          return;
+        }
+
+        errorEl.classList.remove("is-hidden");
+      });
+    </script>
+  </body>
+</html>
+

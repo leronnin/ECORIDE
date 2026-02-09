@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoRide - Accueil</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page">
+    <header class="top-bar">
+      <div class="top-bar__content">
+        <div class="logo">
+          <img src="logo.png" alt="EcoRide" class="logo__img" />
+        </div>
+        <nav class="top-nav">
+          <a class="top-nav__link" href="#">Contactez-nous</a>
+          <div class="dropdown" id="conn-dropdown">
+            <button
+              class="top-nav__button dropdown__button"
+              type="button"
+              id="conn-dropdown-btn"
+              aria-haspopup="menu"
+              aria-controls="conn-dropdown-menu"
+            >
+              Connexion
+              <span class="dropdown__chevron">▾</span>
+            </button>
+            <div
+              class="dropdown__menu"
+              id="conn-dropdown-menu"
+              aria-hidden="true"
+              role="menu"
+            >
+              <a class="dropdown__item" href="connect.html">Se connecter</a>
+              <a class="dropdown__item" href="conn.html">S'enregistrer</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="search-panel">
+        <div class="search-field search-field--autocomplete">
+          <span class="search-field__icon"
+            ><img
+              src="img/arr.png"
+              alt=""
+              aria-hidden="true"
+              class="search-field__icon-img"
+          /></span>
+          <input
+            type="text"
+            id="index-arrivee"
+            placeholder="Point d'arrivée"
+            autocomplete="off"
+          />
+          <ul class="autocomplete-list" id="index-arrivee-list"></ul>
+        </div>
+        <div class="search-field search-field--autocomplete">
+          <span class="search-field__icon"
+            ><img
+              src="img/loca.png"
+              alt=""
+              aria-hidden="true"
+              class="search-field__icon-img"
+          /></span>
+          <input
+            type="text"
+            id="index-depart"
+            placeholder="Point de départ"
+            autocomplete="off"
+          />
+          <ul class="autocomplete-list" id="index-depart-list"></ul>
+        </div>
+        <div class="search-field">
+          <span class="search-field__icon"
+            ><img
+              src="img/clock.png"
+              alt=""
+              aria-hidden="true"
+              class="search-field__icon-img"
+          /></span>
+          <input type="text" placeholder="Heure de voyage" />
+        </div>
+        <div class="search-field">
+          <span class="search-field__icon"
+            ><img
+              src="img/age.png"
+              alt=""
+              aria-hidden="true"
+              class="search-field__icon-img"
+          /></span>
+          <input type="text" placeholder="Date du voyage" />
+        </div>
+        <button class="search-button" type="button">Rechercher</button>
+      </section>
+
+      <section class="hero-title">
+        <h1 class="hero-title__main">
+          Nous sommes <span class="hero-title__highlight">Ecoride</span>, un service de covoiturage
+        </h1>
+        <p class="hero-title__subtitle">
+          Nous basons notre activité sur des véhicules électriques
+        </p>
+        <div class="hero-title__objectives">
+          <div class="hero-title__objective">
+            <span class="hero-title__check">✓</span>
+            <span>Être actif dans la marche pour une planète plus verte en réduisant les émissions carbone</span>
+          </div>
+          <div class="hero-title__objective">
+            <span class="hero-title__check">✓</span>
+            <span>Proposer des alternatives de transports abordables pour tous et au meilleur prix</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-title">
+        <span>Chauffeurs les mieux notés</span>
+      </section>
+
+      <section class="driver-grid">
+        <article class="driver-card">
+          <div class="driver-card__avatar">
+            <img
+              src="img/logo_passager.png"
+              alt=""
+              aria-hidden="true"
+              class="avatar-icon-img"
+            />
+          </div>
+          <h3 class="driver-card__name">M. Philippe DAGO</h3>
+          <ul class="driver-card__trips">
+            <li>
+              08-24-25 - Lille-Tour : 6h
+              <span class="rating-stars"
+                ><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img" /><img
+                  src="img/star.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="rating-star-img"
+                /><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img"
+              /></span>
+            </li>
+            <li>
+              12-02-25 - Vennes-Bron : 8h
+              <span class="rating-stars"
+                ><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img" /><img
+                  src="img/star.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="rating-star-img"
+                /><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img"
+              /></span>
+            </li>
+            <li>
+              12-02-25 - Chaponost-Bron : 1h
+              <span class="rating-stars"
+                ><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img" /><img
+                  src="img/star.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="rating-star-img"
+                /><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img"
+              /></span>
+            </li>
+          </ul>
+        </article>
+        <article class="driver-card">
+          <div class="driver-card__avatar">
+            <img
+              src="img/logo_passager.png"
+              alt=""
+              aria-hidden="true"
+              class="avatar-icon-img"
+            />
+          </div>
+          <h3 class="driver-card__name">M. Robert HOLM</h3>
+          <ul class="driver-card__trips">
+            <li>
+              08-24-25 - Lille-Marseille : 6h
+              <span class="rating-stars"
+                ><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img" /><img
+                  src="img/star.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="rating-star-img"
+                /><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img"
+              /></span>
+            </li>
+            <li>
+              12-02-25 - Poitier-Surgères : 1h
+              <span class="rating-stars"
+                ><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img" /><img
+                  src="img/star.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="rating-star-img"
+                /><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img"
+              /></span>
+            </li>
+            <li>
+              12-02-25 - Chaponost-Bron : 1h
+              <span class="rating-stars"
+                ><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img" /><img
+                  src="img/star.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="rating-star-img"
+                /><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img"
+              /></span>
+            </li>
+          </ul>
+        </article>
+        <article class="driver-card">
+          <div class="driver-card__avatar">
+            <img
+              src="img/logo_passager.png"
+              alt=""
+              aria-hidden="true"
+              class="avatar-icon-img"
+            />
+          </div>
+          <h3 class="driver-card__name">M. Boba FETT</h3>
+          <ul class="driver-card__trips">
+            <li>
+              08-24-25 - Lille-Tour : 6h
+              <span class="rating-stars"
+                ><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img" /><img
+                  src="img/star.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="rating-star-img"
+                /><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img"
+              /></span>
+            </li>
+            <li>
+              12-02-25 - Vennes-Bron : 8h
+              <span class="rating-stars"
+                ><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img" /><img
+                  src="img/star.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="rating-star-img"
+                /><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img"
+              /></span>
+            </li>
+            <li>
+              12-02-25 - Chaponost-Bron : 1h
+              <span class="rating-stars"
+                ><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img" /><img
+                  src="img/star.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="rating-star-img"
+                /><img src="img/star.png" alt="" aria-hidden="true" class="rating-star-img"
+              /></span>
+            </li>
+          </ul>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>eco_ride@entreprise.com</span>
+      <a href="#" class="footer__link">mentions légal</a>
+    </footer>
+
+    <script>
+      const dd = document.getElementById("conn-dropdown");
+      const btn = document.getElementById("conn-dropdown-btn");
+      const menu = document.getElementById("conn-dropdown-menu");
+
+      if (dd && btn && menu) {
+        const closeMenu = () => {
+          dd.classList.remove("is-open");
+          menu.setAttribute("aria-hidden", "true");
+          btn.setAttribute("aria-expanded", "false");
+        };
+
+        const openMenu = () => {
+          dd.classList.add("is-open");
+          menu.setAttribute("aria-hidden", "false");
+          btn.setAttribute("aria-expanded", "true");
+        };
+
+        btn.setAttribute("aria-expanded", "false");
+
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const isOpen = dd.classList.contains("is-open");
+          if (isOpen) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
+        });
+
+        menu.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const link = e.target.closest("a");
+          if (link) {
+            closeMenu();
+          }
+        });
+
+        document.addEventListener("click", closeMenu);
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") closeMenu();
+        });
+      }
+    </script>
+
+    <script>
+      // Autocomplétion gares (gares.json) sur la page d'accueil
+      let garesData = null;
+
+      fetch("gares.json")
+        .then((r) => r.json())
+        .then((d) => {
+          garesData = d;
+        })
+        .catch(() => {});
+
+      function filterGares(term, gares) {
+        if (!term || term.trim().length === 0) return gares;
+        const t = term.toLowerCase().trim();
+        return gares.filter((g) => g.toLowerCase().includes(t));
+      }
+
+      function renderList(listEl, items, onPick) {
+        listEl.innerHTML = "";
+        if (!items.length) {
+          listEl.classList.remove("is-visible");
+          return;
+        }
+        items.slice(0, 10).forEach((g) => {
+          const li = document.createElement("li");
+          li.className = "autocomplete-item";
+          li.textContent = g;
+          li.addEventListener("click", () => onPick(g));
+          listEl.appendChild(li);
+        });
+        listEl.classList.add("is-visible");
+      }
+
+      function setupAutocomplete(inputId, listId) {
+        const input = document.getElementById(inputId);
+        const list = document.getElementById(listId);
+        if (!input || !list) return;
+
+        const update = () => {
+          const gares = garesData?.Gares || [];
+          const items = filterGares(input.value, gares);
+          renderList(list, items, (g) => {
+            input.value = g;
+            list.classList.remove("is-visible");
+          });
+        };
+
+        input.addEventListener("input", update);
+        input.addEventListener("focus", update);
+        document.addEventListener("click", (e) => {
+          if (!input.contains(e.target) && !list.contains(e.target)) {
+            list.classList.remove("is-visible");
+          }
+        });
+      }
+
+      setupAutocomplete("index-depart", "index-depart-list");
+      setupAutocomplete("index-arrivee", "index-arrivee-list");
+    </script>
+  </body>
+</html>

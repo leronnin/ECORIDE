@@ -1,0 +1,169 @@
+{
+  "Gares": [
+    "Gare d'Amiens",
+    "Gare d'Angers",
+    "Gare de Biarritz",
+    "Gare de Bordeaux",
+    "Gare de Brest",
+    "Gare de Calais",
+    "Gare de Lyon",
+    "Gare de Paris"
+  ],
+  "Distance": [
+    {
+      "depart": "Gare d'Amiens",
+      "arrivee": "Gare d'Angers",
+      "distance": 362
+    },
+    {
+      "depart": "Gare d'Amiens",
+      "arrivee": "Gare de Biarritz",
+      "distance": 862
+    },
+    {
+      "depart": "Gare d'Amiens",
+      "arrivee": "Gare de Bordeaux",
+      "distance": 679
+    },
+    {
+      "depart": "Gare d'Amiens",
+      "arrivee": "Gare de Brest",
+      "distance": 619
+    },
+    {
+      "depart": "Gare d'Amiens",
+      "arrivee": "Gare de Lyon",
+      "distance": 587
+    },
+    {
+      "depart": "Gare d'Angers",
+      "arrivee": "Gare de Biarritz",
+      "distance": 518
+    },
+    {
+      "depart": "Gare d'Angers",
+      "arrivee": "Gare de Bordeaux",
+      "distance": 335
+    },
+    {
+      "depart": "Gare d'Angers",
+      "arrivee": "Gare de Brest",
+      "distance": 371
+    },
+    {
+      "depart": "Gare d'Angers",
+      "arrivee": "Gare d'Amiens",
+      "distance": 399
+    },
+    {
+      "depart": "Gare d'Angers",
+      "arrivee": "Gare de Calais",
+      "distance": 494
+    },
+    {
+      "depart": "Gare de Biarritz",
+      "arrivee": "Gare d'Amiens",
+      "distance": 862
+    },
+    {
+      "depart": "Gare de Biarritz",
+      "arrivee": "Gare d'Angers",
+      "distance": 518
+    },
+    {
+      "depart": "Gare de Biarritz",
+      "arrivee": "Gare de Bordeaux",
+      "distance": 183
+    },
+    {
+      "depart": "Gare de Biarritz",
+      "arrivee": "Gare de Brest",
+      "distance": 817
+    },
+    {
+      "depart": "Gare de Biarritz",
+      "arrivee": "Gare de Calais",
+      "distance": 997
+    },
+    {
+      "depart": "Gare de Bordeaux",
+      "arrivee": "Gare d'Amiens",
+      "distance": 679
+    },
+    {
+      "depart": "Gare de Bordeaux",
+      "arrivee": "Gare d'Angers",
+      "distance": 335
+    },
+    {
+      "depart": "Gare de Bordeaux",
+      "arrivee": "Gare de Biarritz",
+      "distance": 183
+    },
+    {
+      "depart": "Gare de Bordeaux",
+      "arrivee": "Gare de Brest",
+      "distance": 634
+    },
+    {
+      "depart": "Gare de Bordeaux",
+      "arrivee": "Gare de Calais",
+      "distance": 814
+    },
+    {
+      "depart": "Gare de Brest",
+      "arrivee": "Gare d'Amiens",
+      "distance": 619
+    },
+    {
+      "depart": "Gare de Brest",
+      "arrivee": "Gare d'Angers",
+      "distance": 371
+    },
+    {
+      "depart": "Gare de Brest",
+      "arrivee": "Gare de Biarritz",
+      "distance": 817
+    },
+    {
+      "depart": "Gare de Brest",
+      "arrivee": "Gare de Bordeaux",
+      "distance": 634
+    },
+    {
+      "depart": "Gare de Brest",
+      "arrivee": "Gare de Calais",
+      "distance": 714
+    },
+    {
+      "depart": "Gare de Paris",
+      "arrivee": "Gare d'Amiens",
+      "distance": 130
+    },
+    {
+      "depart": "Gare de Paris",
+      "arrivee": "Gare d'Angers",
+      "distance": 303
+    },
+    {
+      "depart": "Gare de Paris",
+      "arrivee": "Gare de Biarritz",
+      "distance": 744
+    },
+    {
+      "depart": "Gare de Paris",
+      "arrivee": "Gare de Bordeaux",
+      "distance": 561
+    },
+    {
+      "depart": "Gare de Paris",
+      "arrivee": "Gare de Brest",
+      "distance": 561
+    },
+    {
+      "depart": "Gare de Paris",
+      "arrivee": "Gare de Calais",
+      "distance": 274
+    }
+  ]
+}

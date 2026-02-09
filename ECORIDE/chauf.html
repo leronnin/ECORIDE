@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoRide - Espace Chauffeur</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page">
+    <header class="top-bar">
+      <div class="top-bar__content">
+        <div class="logo">
+          <img src="logo.png" alt="EcoRide" class="logo__img" />
+        </div>
+        <nav class="top-nav">
+          <a class="top-nav__link" href="#">Contactez-nous</a>
+          <button class="top-nav__button" id="logout-btn" type="button">Déconnexion</button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Barre d'expérience en haut -->
+    <div class="experience-bar-top">
+      <div class="experience-bar-top__level">
+        <span class="experience-bar-top__label">Niveau</span>
+        <span class="experience-bar-top__value" id="level-value-top">1</span>
+      </div>
+      <div class="experience-bar-top__container">
+        <div class="experience-bar-top__fill" id="experience-bar-fill-top"></div>
+      </div>
+    </div>
+
+    <main class="content">
+      <section class="welcome-banner" id="welcome-banner" aria-live="polite">
+        <span class="welcome-banner__text" id="welcome-text">
+          Bienvenue
+        </span>
+      </section>
+
+      <section class="section-title">
+        <span>Notifications (demandes de trajets)</span>
+      </section>
+      <section class="request-list" id="chauffeur-requests"></section>
+      <section class="chauffeur-header">
+        <h1 class="chauffeur-header__title">Espace Chauffeur</h1>
+        <p class="chauffeur-header__subtitle">Gérez vos trajets et vos passagers</p>
+      </section>
+
+      <section class="chauffeur-stats">
+        <div class="chauffeur-stat-card">
+          <div class="chauffeur-stat-card__icon">
+            <img
+              src="img/car.png"
+              alt=""
+              aria-hidden="true"
+              class="stat-card__icon-img"
+            />
+          </div>
+          <div class="chauffeur-stat-card__value">12</div>
+          <div class="chauffeur-stat-card__label">Trajets effectués</div>
+        </div>
+        <div class="chauffeur-stat-card">
+          <div class="chauffeur-stat-card__icon">
+            <img
+              src="img/s.png"
+              alt=""
+              aria-hidden="true"
+              class="stat-card__icon-img"
+            />
+          </div>
+          <div class="chauffeur-stat-card__value">4.8</div>
+          <div class="chauffeur-stat-card__label">Note moyenne</div>
+        </div>
+        <div class="chauffeur-stat-card">
+          <div class="chauffeur-stat-card__icon">
+            <img
+              src="img/logo_passager_g.png"
+              alt=""
+              aria-hidden="true"
+              class="stat-card__icon-img"
+            />
+          </div>
+          <div class="chauffeur-stat-card__value">45</div>
+          <div class="chauffeur-stat-card__label">Passagers transportés</div>
+        </div>
+        <div class="chauffeur-stat-card">
+          <div class="chauffeur-stat-card__icon">
+            <img
+              src="img/mn.png"
+              alt=""
+              aria-hidden="true"
+              class="stat-card__icon-img"
+            />
+          </div>
+          <div class="chauffeur-stat-card__value">850€</div>
+          <div class="chauffeur-stat-card__label">Revenus totaux</div>
+        </div>
+      </section>
+
+      <section class="experience-section">
+        <div class="experience-card">
+          <div class="experience-header">
+            <h3 class="experience-title">
+              <img src="img/ob.png" alt="" aria-hidden="true" class="title-icon-img" />Niveau
+              d'expérience
+            </h3>
+            <div class="experience-level">
+              <span class="experience-level-label">Niveau</span>
+              <span class="experience-level-value" id="level-value">1</span>
+            </div>
+          </div>
+          <div class="experience-bar-container">
+            <div class="experience-bar">
+              <div class="experience-bar-fill" id="experience-bar-fill"></div>
+            </div>
+            <div class="experience-text">
+              <span id="current-xp">0</span> / <span id="max-xp">2000</span> XP
+            </div>
+          </div>
+          <div class="experience-info">
+            <p>
+              <img src="img/blb.png" alt="" aria-hidden="true" class="inline-icon-img" />Chaque trajet
+              terminé vous rapporte <strong>200 XP</strong>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-title">
+        <span>Créer un nouveau trajet</span>
+      </section>
+
+      <section class="chauffeur-form-card">
+        <form class="chauffeur-form">
+          <div class="chauffeur-form__row">
+            <div class="chauffeur-form__group">
+              <label class="chauffeur-form__label">Point de départ</label>
+              <input
+                type="text"
+                id="chauf-depart"
+                placeholder="Gare de départ"
+                class="chauffeur-form__input"
+                autocomplete="off"
+              />
+              <ul class="autocomplete-list" id="chauf-depart-list"></ul>
+            </div>
+            <div class="chauffeur-form__group">
+              <label class="chauffeur-form__label">Point d'arrivée</label>
+              <input
+                type="text"
+                id="chauf-arrivee"
+                placeholder="Gare d'arrivée"
+                class="chauffeur-form__input"
+                autocomplete="off"
+              />
+              <ul class="autocomplete-list" id="chauf-arrivee-list"></ul>
+            </div>
+          </div>
+          <div class="chauffeur-form__row">
+            <div class="chauffeur-form__group">
+              <label class="chauffeur-form__label">Date</label>
+              <input type="date" class="chauffeur-form__input" />
+            </div>
+            <div class="chauffeur-form__group">
+              <label class="chauffeur-form__label">Heure de départ</label>
+              <input type="time" class="chauffeur-form__input" />
+            </div>
+            <div class="chauffeur-form__group">
+              <label class="chauffeur-form__label">Durée estimée</label>
+              <input type="text" placeholder="Ex: 6h" class="chauffeur-form__input" />
+            </div>
+            <div class="chauffeur-form__group">
+              <label class="chauffeur-form__label">Prix par passager</label>
+              <input type="number" placeholder="€" class="chauffeur-form__input" />
+            </div>
+          </div>
+          <div class="chauffeur-form__group">
+            <label class="chauffeur-form__label">Places disponibles</label>
+            <input type="number" placeholder="Nombre de places" class="chauffeur-form__input" min="1" max="8" />
+          </div>
+          <button type="submit" class="chauffeur-form__submit">Publier le trajet</button>
+        </form>
+      </section>
+
+      <section class="section-title" style="margin-top: 48px;">
+        <span>Mes trajets à venir</span>
+      </section>
+
+      <section class="driver-grid">
+        <article class="driver-card">
+          <div class="driver-card__header">
+            <div class="driver-card__route">
+              <span class="driver-card__route-from"
+                ><img
+                  src="img/loca.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="inline-icon-img"
+                />Lille</span
+              >
+              <span class="driver-card__route-arrow">→</span>
+              <span class="driver-card__route-to"
+                ><img
+                  src="img/loca.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="inline-icon-img"
+                />Tour</span
+              >
+            </div>
+            <div class="driver-card__status">
+              <img src="img/age.png" alt="" aria-hidden="true" class="inline-icon-img" />08-24-25 à 14:00
+            </div>
+          </div>
+          <div class="driver-card__details">
+            <span
+              ><img
+                src="img/clock.png"
+                alt=""
+                aria-hidden="true"
+                class="inline-icon-img"
+              />6h</span
+            >
+            <span
+              ><img
+                src="img/mn.png"
+                alt=""
+                aria-hidden="true"
+                class="inline-icon-img"
+              />25€/passager</span
+            >
+            <span
+              ><img
+                src="img/logo_passager_g.png"
+                alt=""
+                aria-hidden="true"
+                class="inline-icon-img"
+              />3/4 places</span
+            >
+          </div>
+          <div class="driver-card__passengers">
+            <strong>Passagers :</strong>
+            <ul class="driver-card__passengers-list">
+              <li>
+                <img
+                  src="img/logo_passager.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="inline-icon-img"
+                />Marie DUPONT
+              </li>
+              <li>
+                <img
+                  src="img/logo_passager.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="inline-icon-img"
+                />Jean MARTIN
+              </li>
+              <li>
+                <img
+                  src="img/logo_passager.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="inline-icon-img"
+                />Sophie BERNARD
+              </li>
+            </ul>
+          </div>
+          <button class="driver-card__button">Modifier</button>
+        </article>
+
+        <article class="driver-card">
+          <div class="driver-card__header">
+            <div class="driver-card__route">
+              <span class="driver-card__route-from"
+                ><img
+                  src="img/loca.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="inline-icon-img"
+                />Paris</span
+              >
+              <span class="driver-card__route-arrow">→</span>
+              <span class="driver-card__route-to"
+                ><img
+                  src="img/loca.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="inline-icon-img"
+                />Lyon</span
+              >
+            </div>
+            <div class="driver-card__status">
+              <img src="img/age.png" alt="" aria-hidden="true" class="inline-icon-img" />08-25-25 à 08:00
+            </div>
+          </div>
+          <div class="driver-card__details">
+            <span
+              ><img
+                src="img/clock.png"
+                alt=""
+                aria-hidden="true"
+                class="inline-icon-img"
+              />4h</span
+            >
+            <span
+              ><img
+                src="img/mn.png"
+                alt=""
+                aria-hidden="true"
+                class="inline-icon-img"
+              />30€/passager</span
+            >
+            <span
+              ><img
+                src="img/logo_passager_g.png"
+                alt=""
+                aria-hidden="true"
+                class="inline-icon-img"
+              />1/5 places</span
+            >
+          </div>
+          <div class="driver-card__passengers">
+            <strong>Passagers :</strong>
+            <ul class="driver-card__passengers-list">
+              <li>
+                <img
+                  src="img/logo_passager.png"
+                  alt=""
+                  aria-hidden="true"
+                  class="inline-icon-img"
+                />Pierre LEFEBVRE
+              </li>
+            </ul>
+          </div>
+          <button class="driver-card__button">Modifier</button>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>eco_ride@entreprise.com</span>
+      <a href="#" class="footer__link">mentions légal</a>
+    </footer>
+
+    <script>
+      // Déconnexion
+      (function () {
+        const logoutBtn = document.getElementById("logout-btn");
+        if (!logoutBtn) return;
+        const userKey = sessionStorage.getItem("ecoride_current_user_key");
+        const userType = sessionStorage.getItem("ecoride_current_user_type");
+        if (!userKey || !userType) {
+          logoutBtn.classList.add("is-hidden");
+          return;
+        }
+        logoutBtn.addEventListener("click", () => {
+          sessionStorage.removeItem("ecoride_current_user_type");
+          sessionStorage.removeItem("ecoride_current_user_key");
+          window.location.href = "connect.html";
+        });
+      })();
+
+      // Afficher "Bienvenue M. <Nom>" selon la clé unique
+      (function () {
+        const userKey = sessionStorage.getItem("ecoride_current_user_key");
+        const userType = sessionStorage.getItem("ecoride_current_user_type");
+        const welcomeText = document.getElementById("welcome-text");
+
+        const readArray = (k) => {
+          const raw = localStorage.getItem(k);
+          if (!raw) return [];
+          try {
+            const parsed = JSON.parse(raw);
+            return Array.isArray(parsed) ? parsed : [];
+          } catch {
+            return [];
+          }
+        };
+
+        if (!welcomeText || !userKey || !userType) {
+          return;
+        }
+
+        if (userType === "chauffeur") {
+          const chauffeurs = readArray("ecoride_chauffeurs");
+          const u = chauffeurs.find((c) => c?.cleConnexion === userKey);
+          if (u?.nom) {
+            welcomeText.textContent = `Bienvenue M. ${u.nom}`;
+          }
+        }
+      })();
+
+      // Configuration de l'expérience
+      const XP_PER_TRIP = 200;
+      const MAX_XP = 2000;
+      const XP_PER_LEVEL = 2000;
+
+      // Charger l'XP depuis localStorage ou initialiser
+      function getCurrentXP() {
+        const storedXP = localStorage.getItem("chauffeur_xp");
+        return storedXP ? parseInt(storedXP, 10) : 0;
+      }
+
+      // Sauvegarder l'XP dans localStorage
+      function saveXP(xp) {
+        localStorage.setItem("chauffeur_xp", xp.toString());
+      }
+
+      // Calculer le niveau basé sur l'XP
+      function calculateLevel(xp) {
+        return Math.floor(xp / XP_PER_LEVEL) + 1;
+      }
+
+      // Ajouter de l'XP (appelé quand un trajet est terminé)
+      function addXP(amount = XP_PER_TRIP) {
+        const currentXP = getCurrentXP();
+        const newXP = Math.min(currentXP + amount, MAX_XP);
+        saveXP(newXP);
+        updateExperienceDisplay();
+        return newXP;
+      }
+
+      // Mettre à jour l'affichage de l'expérience
+      function updateExperienceDisplay() {
+        const currentXP = getCurrentXP();
+        const level = calculateLevel(currentXP);
+        // Calculer le pourcentage de remplissage (0 à 100%)
+        const percentage = (currentXP / MAX_XP) * 100;
+
+        // Mettre à jour le niveau (barre du haut)
+        const levelValueTop = document.getElementById("level-value-top");
+        if (levelValueTop) {
+          levelValueTop.textContent = level;
+        }
+
+        // Mettre à jour la barre d'expérience (barre du haut)
+        const barFillTop = document.getElementById("experience-bar-fill-top");
+        if (barFillTop) {
+          barFillTop.style.width = `${Math.min(percentage, 100)}%`;
+        }
+      }
+
+      // Initialiser l'affichage au chargement
+      updateExperienceDisplay();
+
+      // Exposer la fonction pour ajouter de l'XP (à appeler quand un trajet est terminé)
+      window.addTripXP = addXP;
+
+      // Demandes passagers (accept/refuse) + chat
+      const REQUESTS_KEY = "ecoride_trip_requests";
+      const CHAT_KEY = "ecoride_chats";
+
+      function readJson(key, fallback) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (!raw) return fallback;
+          return JSON.parse(raw);
+        } catch {
+          return fallback;
+        }
+      }
+
+      function writeJson(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+
+      const escapeHtml = (s) =>
+        String(s ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+
+      const formatDate = (dateString) => {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+      };
+
+      const formatTime = (timeString) => {
+        if (!timeString) return "";
+        return timeString.substring(0, 5);
+      };
+
+      function renderChauffeurRequests() {
+        const el = document.getElementById("chauffeur-requests");
+        if (!el) return;
+
+        const chauffeurKey = sessionStorage.getItem("ecoride_current_user_key");
+        const userType = sessionStorage.getItem("ecoride_current_user_type");
+        if (userType !== "chauffeur" || !chauffeurKey) {
+          el.innerHTML = `<div class="request-empty">Connectez-vous en chauffeur pour voir les notifications.</div>`;
+          return;
+        }
+
+        const requests = readJson(REQUESTS_KEY, []).filter(
+          (r) => r?.chauffeurKey === chauffeurKey
+        );
+
+        if (!requests.length) {
+          el.innerHTML = `<div class="request-empty">Aucune notification.</div>`;
+          return;
+        }
+
+        el.innerHTML = requests
+          .slice()
+          .reverse()
+          .map((r) => {
+            const status = r.status || "pending";
+            const canAct = status === "pending";
+            return `
+              <div class="request-card">
+                <div class="request-card__main">
+                  <div class="request-card__title">${escapeHtml(r.depart)} → ${escapeHtml(
+              r.arrivee
+            )}</div>
+                  <div class="request-card__meta">
+                    <span><img src="img/age.png" alt="" aria-hidden="true" class="inline-icon-img" />${escapeHtml(formatDate(r.date))}</span>
+                    <span><img src="img/clock.png" alt="" aria-hidden="true" class="inline-icon-img" />${escapeHtml(formatTime(r.heure))}</span>
+                    <span><img src="img/logo_passager_g.png" alt="" aria-hidden="true" class="inline-icon-img" />${escapeHtml(
+                      r.seats
+                    )} place(s)</span>
+                    <span class="request-status request-status--${escapeHtml(status)}">${escapeHtml(
+              status
+            )}</span>
+                  </div>
+                </div>
+                <div class="request-card__actions">
+                  <button class="chat-bubble" type="button" data-chat="${escapeHtml(
+                    r.id
+                  )}" title="Chat"><img src="img/mss.png" alt="" aria-hidden="true" class="chat-icon-img" /></button>
+                  ${
+                    canAct
+                      ? `<button class="req-btn req-btn--ok" type="button" data-act="accept" data-id="${escapeHtml(
+                          r.id
+                        )}">Accepter</button>
+                         <button class="req-btn req-btn--no" type="button" data-act="refuse" data-id="${escapeHtml(
+                           r.id
+                         )}">Refuser</button>`
+                      : ""
+                  }
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      document.getElementById("chauffeur-requests").addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-act]");
+        if (!btn) return;
+        const id = btn.dataset.id;
+        const act = btn.dataset.act;
+
+        let requests = readJson(REQUESTS_KEY, []);
+        const idx = requests.findIndex((r) => r?.id === id);
+        if (idx < 0) return;
+
+        if (act === "accept") {
+          requests[idx] = { ...requests[idx], status: "accepted", decidedAt: new Date().toISOString() };
+
+          // Reward +10c to passenger (both euro/credits cases)
+          const passKey = requests[idx].passagerKey;
+          let passagers = readJson("ecoride_passagers", []);
+          const pidx = passagers.findIndex((p) => p?.cleConnexion === passKey);
+          if (pidx >= 0) {
+            const c = Number(passagers[pidx]?.credits) || 0;
+            passagers[pidx] = { ...passagers[pidx], credits: c + 10 };
+            writeJson("ecoride_passagers", passagers);
+          }
+        } else if (act === "refuse") {
+          requests[idx] = { ...requests[idx], status: "refused", decidedAt: new Date().toISOString() };
+        }
+
+        writeJson(REQUESTS_KEY, requests);
+        renderChauffeurRequests();
+      });
+
+      // Chat modal (same storage as passager)
+      const chatModal = document.createElement("div");
+      chatModal.className = "chat-modal is-hidden";
+      chatModal.innerHTML = `
+        <div class="chat-modal__overlay"></div>
+        <div class="chat-modal__panel">
+          <div class="chat-modal__header">
+            <div class="chat-modal__title">Chat</div>
+            <button class="chat-modal__close" type="button">×</button>
+          </div>
+          <div class="chat-modal__messages" id="chat-messages"></div>
+          <form class="chat-modal__form" id="chat-form">
+            <input class="chat-modal__input" id="chat-input" placeholder="Votre message..." />
+            <div class="trip-menu" id="trip-menu">
+              <button class="trip-menu__btn" type="button" id="trip-menu-btn">Trajet ▾</button>
+              <div class="trip-menu__dropdown is-hidden" id="trip-menu-dd">
+                <button class="trip-menu__item" type="button" data-trip-action="start">Commencer le trajet</button>
+              </div>
+            </div>
+            <button class="chat-modal__send" type="submit">Envoyer</button>
+          </form>
+        </div>
+      `;
+      document.body.appendChild(chatModal);
+
+      let activeChatId = null;
+      const closeChat = () => {
+        activeChatId = null;
+        chatModal.classList.add("is-hidden");
+      };
+      chatModal.querySelector(".chat-modal__overlay").addEventListener("click", closeChat);
+      chatModal.querySelector(".chat-modal__close").addEventListener("click", closeChat);
+
+      function readChats() {
+        return readJson(CHAT_KEY, {});
+      }
+      function writeChats(chats) {
+        writeJson(CHAT_KEY, chats);
+      }
+      function renderChat() {
+        const box = document.getElementById("chat-messages");
+        if (!box || !activeChatId) return;
+        const chats = readChats();
+        const messages = chats[activeChatId] || [];
+        box.innerHTML = messages
+          .map(
+            (m) => `
+              <div class="chat-msg chat-msg--${escapeHtml(m.from)}">
+                <div class="chat-msg__bubble">${escapeHtml(m.text)}</div>
+                <div class="chat-msg__meta">${escapeHtml(m.ts)}</div>
+              </div>
+            `
+          )
+          .join("");
+        box.scrollTop = box.scrollHeight;
+      }
+
+      function getActiveRequest() {
+        if (!activeChatId) return null;
+        const requests = readJson(REQUESTS_KEY, []);
+        return requests.find((r) => r?.id === activeChatId) || null;
+      }
+
+      function setTripMenuState() {
+        const btn = document.getElementById("trip-menu-btn");
+        if (!btn) return;
+        const req = getActiveRequest();
+        const canStart = req?.status === "accepted" && req?.tripStatus !== "started";
+        btn.disabled = !canStart;
+        btn.title = canStart ? "Actions trajet" : "Disponible après acceptation";
+      }
+
+      const tripMenuBtn = chatModal.querySelector("#trip-menu-btn");
+      const tripMenuDd = chatModal.querySelector("#trip-menu-dd");
+      const closeTripDd = () => tripMenuDd.classList.add("is-hidden");
+
+      tripMenuBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (tripMenuBtn.disabled) return;
+        tripMenuDd.classList.toggle("is-hidden");
+      });
+
+      chatModal.addEventListener("click", (e) => {
+        const act = e.target.closest("button[data-trip-action]");
+        if (!act) return;
+        const action = act.dataset.tripAction;
+        if (action !== "start") return;
+        const req = getActiveRequest();
+        if (!req || req.status !== "accepted") return;
+
+        let requests = readJson(REQUESTS_KEY, []);
+        const idx = requests.findIndex((r) => r?.id === req.id);
+        if (idx < 0) return;
+        requests[idx] = {
+          ...requests[idx],
+          tripStatus: "started",
+          tripStartedAt: new Date().toISOString(),
+        };
+        writeJson(REQUESTS_KEY, requests);
+        closeTripDd();
+        renderChauffeurRequests();
+        setTripMenuState();
+      });
+
+      document.getElementById("chauffeur-requests").addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-chat]");
+        if (!btn) return;
+        activeChatId = btn.dataset.chat;
+        chatModal.classList.remove("is-hidden");
+        renderChat();
+        setTripMenuState();
+      });
+
+      document.getElementById("chat-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = document.getElementById("chat-input");
+        const text = (input.value || "").trim();
+        if (!text || !activeChatId) return;
+        const chats = readChats();
+        const arr = chats[activeChatId] || [];
+        arr.push({
+          from: "chauffeur",
+          text,
+          ts: new Date().toLocaleString("fr-FR"),
+        });
+        chats[activeChatId] = arr;
+        writeChats(chats);
+        input.value = "";
+        renderChat();
+        setTripMenuState();
+      });
+
+      renderChauffeurRequests();
+
+      // Live refresh when passenger updates localStorage (other tab)
+      window.addEventListener("storage", (e) => {
+        if (e.key === REQUESTS_KEY) {
+          renderChauffeurRequests();
+          setTripMenuState();
+        }
+      });
+
+      // Autocomplétion gares (gares.json) sur le formulaire chauffeur
+      let garesData = null;
+      fetch("gares.json")
+        .then((r) => r.json())
+        .then((d) => {
+          garesData = d;
+        })
+        .catch(() => {});
+
+      function filterGares(term, gares) {
+        if (!term || term.trim().length === 0) return gares;
+        const t = term.toLowerCase().trim();
+        return gares.filter((g) => g.toLowerCase().includes(t));
+      }
+
+      function renderList(listEl, items, onPick) {
+        listEl.innerHTML = "";
+        if (!items.length) {
+          listEl.classList.remove("is-visible");
+          return;
+        }
+        items.slice(0, 10).forEach((g) => {
+          const li = document.createElement("li");
+          li.className = "autocomplete-item";
+          li.textContent = g;
+          li.addEventListener("click", () => onPick(g));
+          listEl.appendChild(li);
+        });
+        listEl.classList.add("is-visible");
+      }
+
+      function setupAutocomplete(inputId, listId) {
+        const input = document.getElementById(inputId);
+        const list = document.getElementById(listId);
+        if (!input || !list) return;
+
+        const update = () => {
+          const gares = garesData?.Gares || [];
+          const items = filterGares(input.value, gares);
+          renderList(list, items, (g) => {
+            input.value = g;
+            list.classList.remove("is-visible");
+          });
+        };
+
+        input.addEventListener("input", update);
+        input.addEventListener("focus", update);
+        document.addEventListener("click", (e) => {
+          if (!input.contains(e.target) && !list.contains(e.target)) {
+            list.classList.remove("is-visible");
+          }
+        });
+      }
+
+      setupAutocomplete("chauf-depart", "chauf-depart-list");
+      setupAutocomplete("chauf-arrivee", "chauf-arrivee-list");
+    </script>
+  </body>
+</html>

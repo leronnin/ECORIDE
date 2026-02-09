@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoRide - Espace Passager</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page">
+    <header class="top-bar">
+      <div class="top-bar__content">
+        <div class="logo">
+          <img src="logo.png" alt="EcoRide" class="logo__img" />
+        </div>
+        <nav class="top-nav">
+          <a class="top-nav__link" href="#">Contactez-nous</a>
+          <button class="top-nav__button" id="logout-btn" type="button">Déconnexion</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="welcome-banner" id="welcome-banner" aria-live="polite">
+        <div class="welcome-banner__row">
+          <span class="welcome-banner__text" id="welcome-text">Bienvenue</span>
+          <span class="welcome-banner__credits" id="credits-text"></span>
+        </div>
+      </section>
+      <section class="search-panel">
+        <div class="search-field search-field--autocomplete">
+          <span class="search-field__icon"
+            ><img
+              src="img/loca.png"
+              alt=""
+              aria-hidden="true"
+              class="search-field__icon-img"
+          /></span>
+          <input
+            type="text"
+            id="depart-input"
+            placeholder="Point de départ"
+            autocomplete="off"
+          />
+          <ul class="autocomplete-list" id="depart-list"></ul>
+        </div>
+        <div class="search-field search-field--autocomplete">
+          <span class="search-field__icon"
+            ><img
+              src="img/arr.png"
+              alt=""
+              aria-hidden="true"
+              class="search-field__icon-img"
+          /></span>
+          <input
+            type="text"
+            id="arrivee-input"
+            placeholder="Point d'arrivée"
+            autocomplete="off"
+          />
+          <ul class="autocomplete-list" id="arrivee-list"></ul>
+        </div>
+        <div class="search-field">
+          <span class="search-field__icon"
+            ><img
+              src="img/age.png"
+              alt=""
+              aria-hidden="true"
+              class="search-field__icon-img"
+          /></span>
+          <input type="date" id="date-input" />
+        </div>
+        <div class="search-field">
+          <span class="search-field__icon"
+            ><img
+              src="img/clock.png"
+              alt=""
+              aria-hidden="true"
+              class="search-field__icon-img"
+          /></span>
+          <input type="time" id="heure-input" />
+        </div>
+        <button class="search-button" type="button" id="search-button">Rechercher</button>
+      </section>
+
+      <section class="section-title">
+        <span id="trajets-title">Trajets disponibles</span>
+      </section>
+
+      <section class="section-title" style="margin-top: 18px;">
+        <span>Mes demandes</span>
+      </section>
+      <section class="request-list" id="request-list"></section>
+
+      <section class="trip-board" id="trajets-container">
+        <div class="trip-board__header">
+          <div class="trip-pill trip-pill--arrivee">
+            <span class="trip-pill__icon">↗</span>
+            <span>Arrivée</span>
+          </div>
+          <div class="trip-pill trip-pill--depart">
+            <span class="trip-pill__icon"
+              ><img
+                src="img/loca.png"
+                alt=""
+                aria-hidden="true"
+                class="trip-pill__icon-img"
+            /></span>
+            <span>Départ</span>
+          </div>
+          <div class="trip-pill trip-pill--heure">
+            <span class="trip-pill__icon"
+              ><img
+                src="img/clock.png"
+                alt=""
+                aria-hidden="true"
+                class="trip-pill__icon-img"
+            /></span>
+            <span>Heure<br />de voyage</span>
+          </div>
+          <div class="trip-pill trip-pill--date">
+            <span class="trip-pill__icon"
+              ><img
+                src="img/age.png"
+                alt=""
+                aria-hidden="true"
+                class="trip-pill__icon-img"
+            /></span>
+            <span>Date<br />de voyage</span>
+          </div>
+          <div class="trip-pill trip-pill--credits" id="credits-pill">0C</div>
+        </div>
+        <div class="trip-board__rows" id="trip-rows"></div>
+      </section>
+
+      <section class="section-title" style="margin-top: 48px;">
+        <span>Mes réservations</span>
+      </section>
+
+      <section class="driver-grid">
+        <article class="driver-card">
+          <div class="driver-card__avatar">
+            <img
+              src="img/logo_passager.png"
+              alt=""
+              aria-hidden="true"
+              class="avatar-icon-img"
+            />
+          </div>
+          <h3 class="driver-card__name">M. Philippe DAGO</h3>
+          <div class="driver-card__route">
+            <span class="driver-card__route-from"
+              ><img
+                src="img/loca.png"
+                alt=""
+                aria-hidden="true"
+                class="inline-icon-img"
+              />Lille</span
+            >
+            <span class="driver-card__route-arrow">→</span>
+            <span class="driver-card__route-to"
+              ><img
+                src="img/loca.png"
+                alt=""
+                aria-hidden="true"
+                class="inline-icon-img"
+              />Tour</span
+            >
+          </div>
+          <div class="driver-card__details">
+            <span
+              ><img
+                src="img/age.png"
+                alt=""
+                aria-hidden="true"
+                class="inline-icon-img"
+              />08-24-25</span
+            >
+            <span
+              ><img
+                src="img/clock.png"
+                alt=""
+                aria-hidden="true"
+                class="inline-icon-img"
+              />14:00</span
+            >
+            <span
+              ><img
+                src="img/mn.png"
+                alt=""
+                aria-hidden="true"
+                class="inline-icon-img"
+              />25€</span
+            >
+          </div>
+          <div class="driver-card__status">
+            <img src="img/tr.png" alt="" aria-hidden="true" class="inline-icon-img" />Confirmé
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>eco_ride@entreprise.com</span>
+      <a href="#" class="footer__link">mentions légal</a>
+    </footer>
+
+    <script>
+      // Déconnexion
+      (function () {
+        const logoutBtn = document.getElementById("logout-btn");
+        if (!logoutBtn) return;
+        const userKey = sessionStorage.getItem("ecoride_current_user_key");
+        const userType = sessionStorage.getItem("ecoride_current_user_type");
+        if (!userKey || !userType) {
+          logoutBtn.classList.add("is-hidden");
+          return;
+        }
+        logoutBtn.addEventListener("click", () => {
+          sessionStorage.removeItem("ecoride_current_user_type");
+          sessionStorage.removeItem("ecoride_current_user_key");
+          window.location.href = "connect.html";
+        });
+      })();
+
+      // Afficher "Bienvenue M. <Nom>" selon la clé unique
+      (function () {
+        const userKey = sessionStorage.getItem("ecoride_current_user_key");
+        const userType = sessionStorage.getItem("ecoride_current_user_type");
+        const welcomeText = document.getElementById("welcome-text");
+        const creditsText = document.getElementById("credits-text");
+
+        const readArray = (k) => {
+          const raw = localStorage.getItem(k);
+          if (!raw) return [];
+          try {
+            const parsed = JSON.parse(raw);
+            return Array.isArray(parsed) ? parsed : [];
+          } catch {
+            return [];
+          }
+        };
+
+        if (!welcomeText || !userKey || !userType) {
+          return;
+        }
+
+        if (userType === "passager") {
+          const passagers = readArray("ecoride_passagers");
+          const u = passagers.find((p) => p?.cleConnexion === userKey);
+          if (u?.nom) {
+            welcomeText.textContent = `Bienvenue M. ${u.nom}`;
+          }
+          if (creditsText) {
+            const c = Number(u?.credits);
+            creditsText.textContent = Number.isFinite(c) ? `${c}c` : "0c";
+          }
+        }
+      })();
+
+      let garesData = null;
+      let voyData = null;
+
+      // Charger les données des gares
+      fetch("gares.json")
+        .then((response) => response.json())
+        .then((data) => {
+          garesData = data;
+        })
+        .catch((error) => {
+          console.error("Erreur lors du chargement des gares:", error);
+        });
+
+      // Charger les trajets disponibles (voy.json)
+      fetch("voy.json")
+        .then((r) => r.json())
+        .then((d) => {
+          voyData = d;
+          initTrajetsFromVoy();
+        })
+        .catch((e) => {
+          console.error("Erreur lors du chargement de voy.json:", e);
+          voyData = { voyages: [] };
+          initTrajetsFromVoy();
+        });
+
+      const escapeHtml = (s) =>
+        String(s ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+
+      function filterGares(searchTerm, gares) {
+        if (!searchTerm || searchTerm.trim().length === 0) {
+          // Afficher toutes les gares si le champ est vide
+          return gares;
+        }
+        const term = searchTerm.toLowerCase().trim();
+        return gares.filter((gare) =>
+          gare.toLowerCase().includes(term)
+        );
+      }
+
+      function createAutocompleteList(filteredGares, input, listElement) {
+        listElement.innerHTML = "";
+        if (filteredGares.length === 0) {
+          listElement.classList.remove("is-visible");
+          return;
+        }
+
+        filteredGares.forEach((gare) => {
+          const li = document.createElement("li");
+          li.className = "autocomplete-item";
+          li.textContent = gare;
+          li.addEventListener("click", () => {
+            input.value = gare;
+            listElement.classList.remove("is-visible");
+            // Déclencher la recherche après sélection
+            setTimeout(() => {
+              if (window.performSearch) {
+                window.performSearch();
+              }
+            }, 150);
+          });
+          listElement.appendChild(li);
+        });
+
+        listElement.classList.add("is-visible");
+      }
+
+      function setupAutocomplete(inputId, listId) {
+        const input = document.getElementById(inputId);
+        const list = document.getElementById(listId);
+        let selectedIndex = -1;
+
+        function updateAutocomplete() {
+          if (!garesData) return;
+          const searchTerm = input.value.trim();
+          const filtered = filterGares(searchTerm, garesData.Gares);
+          createAutocompleteList(filtered, input, list);
+          selectedIndex = -1; // Réinitialiser l'index à chaque mise à jour
+        }
+
+        // Mise à jour en temps réel à chaque lettre tapée
+        input.addEventListener("input", (e) => {
+          updateAutocomplete();
+        });
+
+        // Afficher la liste au focus si du texte est présent
+        input.addEventListener("focus", (e) => {
+          updateAutocomplete();
+        });
+
+        // Masquer la liste quand on clique ailleurs
+        document.addEventListener("click", (e) => {
+          if (!input.contains(e.target) && !list.contains(e.target)) {
+            list.classList.remove("is-visible");
+            selectedIndex = -1;
+          }
+        });
+
+        // Navigation au clavier
+        input.addEventListener("keydown", (e) => {
+          const items = list.querySelectorAll(".autocomplete-item");
+          
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            if (items.length > 0) {
+              selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+              items[selectedIndex]?.scrollIntoView({ block: "nearest" });
+              items.forEach((item, idx) => {
+                item.classList.toggle("is-selected", idx === selectedIndex);
+              });
+            }
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            if (items.length > 0) {
+              selectedIndex = Math.max(selectedIndex - 1, -1);
+              items.forEach((item, idx) => {
+                item.classList.toggle("is-selected", idx === selectedIndex);
+              });
+            }
+          } else if (e.key === "Enter") {
+            if (selectedIndex >= 0 && items[selectedIndex]) {
+              e.preventDefault();
+              input.value = items[selectedIndex].textContent;
+              list.classList.remove("is-visible");
+              selectedIndex = -1;
+              // Déclencher la recherche après sélection
+              setTimeout(() => {
+                if (window.performSearch) {
+                  window.performSearch();
+                }
+              }, 100);
+            }
+          } else if (e.key === "Escape") {
+            list.classList.remove("is-visible");
+            selectedIndex = -1;
+          } else {
+            // Réinitialiser l'index pour toute autre touche
+            selectedIndex = -1;
+            items.forEach((item) => {
+              item.classList.remove("is-selected");
+            });
+          }
+        });
+      }
+
+      // Initialiser l'autocomplétion pour les deux champs
+      setupAutocomplete("depart-input", "depart-list");
+      setupAutocomplete("arrivee-input", "arrivee-list");
+
+      // Fonction de recherche
+      const searchButton = document.getElementById("search-button");
+      const departInput = document.getElementById("depart-input");
+      const arriveeInput = document.getElementById("arrivee-input");
+      const dateInput = document.getElementById("date-input");
+      const heureInput = document.getElementById("heure-input");
+      const trajetsContainer = document.getElementById("trajets-container");
+      const trajetsTitle = document.getElementById("trajets-title");
+
+      function getDistance(depart, arrivee) {
+        if (!garesData) return null;
+        const route =
+          garesData.Distance.find((d) => d.depart === depart && d.arrivee === arrivee) ||
+          garesData.Distance.find((d) => d.depart === arrivee && d.arrivee === depart);
+        return route ? route.distance : null;
+      }
+
+      function formatDate(dateString) {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+      }
+
+      function formatTime(timeString) {
+        if (!timeString) return "";
+        return timeString.substring(0, 5);
+      }
+
+      function calculatePrice(distance) {
+        if (!distance) return "N/A";
+        // Algorithme de conversion km -> euro:
+        // 10km = 1.5€ donc 1km = 0.15€
+        const euros = distance * 0.15;
+        return Math.round(euros * 100) / 100;
+      }
+
+      function formatEuro(value) {
+        if (typeof value !== "number") return "N/A";
+        const isInt = Math.abs(value - Math.round(value)) < 0.0001;
+        return isInt ? `${Math.round(value)}Euro` : `${value.toFixed(2)}Euro`;
+      }
+
+      function createTrajetRow(trajet, index) {
+        const distance = getDistance(trajet.depart, trajet.arrivee);
+        const price = calculatePrice(distance);
+        const isAuthedPassager =
+          sessionStorage.getItem("ecoride_current_user_type") === "passager" &&
+          Boolean(sessionStorage.getItem("ecoride_current_user_key"));
+
+        const creditsCost =
+          typeof distance === "number" && distance > 250 ? 50 : 40;
+
+        const maxSelectableSeats = Math.min(3, Math.max(0, trajet.remainingPlaces ?? 0));
+        const selectedSeats = typeof trajet.selectedSeats === "number" ? trajet.selectedSeats : 0;
+
+        return `
+          <div class="trip-row">
+            <button
+              class="trip-seat"
+              type="button"
+              data-seat-index="${index}"
+              data-voyage-id="${escapeHtml(trajet.voyageId)}"
+              data-max="${escapeHtml(maxSelectableSeats)}"
+              title="Places demandées (clic pour changer)"
+              ${maxSelectableSeats === 0 ? "disabled" : ""}
+            >
+              <span class="trip-seat__num">${escapeHtml(selectedSeats)}</span>
+              <span class="trip-seat__q">?</span>
+            </button>
+            <div class="trip-row__cell">${escapeHtml(trajet.arrivee)}</div>
+            <div class="trip-row__cell">${escapeHtml(trajet.depart)}</div>
+            <div class="trip-row__cell">${escapeHtml(formatTime(trajet.heure))}</div>
+            <div class="trip-row__cell">${escapeHtml(formatDate(trajet.date))}</div>
+            <div class="trip-row__cell">${escapeHtml(trajet.vehicule)}</div>
+            <div class="trip-row__actions">
+              <button class="trip-chip trip-chip--euro" type="button" data-pay="euro" data-index="${index}">
+                ${escapeHtml(formatEuro(price))}
+              </button>
+              ${
+                isAuthedPassager
+                  ? `<button class="trip-chip trip-chip--credits" type="button" data-pay="credits" data-credits="${creditsCost}" data-index="${index}">${creditsCost}C</button>`
+                  : ""
+              }
+            </div>
+          </div>
+        `;
+      }
+
+      // Trajets disponibles (voy.json + chauffeurs du localStorage)
+      let trajetsDisponibles = [];
+
+      function readArray(key) {
+        const raw = localStorage.getItem(key);
+        if (!raw) return [];
+        try {
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function initTrajetsFromVoy() {
+        const voyages = (voyData?.voyages || []).slice();
+        const chauffeurs = readArray("ecoride_chauffeurs");
+        const defaultChauffeurs = [
+          { nom: "DAGO", prenom: "Philippe", vehiculeModele: "TESLA Model 3" },
+          { nom: "HOLM", prenom: "Robert", vehiculeModele: "TESLA Model S" },
+        ];
+        const pool = chauffeurs.length ? chauffeurs : defaultChauffeurs;
+
+        const reservedByVoyageId = getReservedSeatsByVoyageId();
+        const seatSelection = getSeatSelectionByVoyageId();
+
+        trajetsDisponibles = voyages.map((v, i) => {
+          const c = pool[i % pool.length] || {};
+          const chauffeurName =
+            c.nom ? `M. ${c.prenom || ""} ${c.nom}`.replace(/\s+/g, " ").trim() : "Chauffeur";
+          const rawPlaces = Number(v.places ?? 1);
+          const places = Math.min(3, Math.max(1, Number.isFinite(rawPlaces) ? rawPlaces : 1));
+          const reserved = reservedByVoyageId[v.id] || 0;
+          const remainingPlaces = Math.max(0, places - reserved);
+          const selectedSeats = Math.min(remainingPlaces, seatSelection[v.id] || 0);
+          return {
+            voyageId: v.id,
+            chauffeur: chauffeurName,
+            chauffeurKey: c.cleConnexion || null,
+            depart: v.depart,
+            arrivee: v.arrivee,
+            date: v.date,
+            heure: v.heure,
+            places,
+            remainingPlaces,
+            selectedSeats,
+            vehicule: c.vehiculeModele || v.vehiculeModele || v.vehiculeModele || "Véhicule électrique",
+            vehiculeCouleur: c.vehiculeCouleur || c.couleurVehicule || v.vehiculeCouleur || null,
+            vehiculeImmat: c.vehiculeImmat || v.vehiculeImmat || null,
+            vehiculeDateImmat: c.vehiculeDateImmat || v.vehiculeDateImmat || null,
+          };
+        });
+
+        displayTrajets(trajetsDisponibles);
+      }
+
+      function displayTrajets(trajets) {
+        const rowsEl = document.getElementById("trip-rows");
+        if (!rowsEl) return;
+
+        if (trajets.length === 0) {
+          rowsEl.innerHTML = `<div class="trip-empty">Aucun trajet disponible pour cette recherche.</div>`;
+          return;
+        }
+
+        rowsEl.innerHTML = trajets
+          .map((trajet, idx) => createTrajetRow(trajet, idx))
+          .join("");
+      }
+
+      // Paiement en crédits (uniquement espace authentifié passager)
+      function updateCreditsUI() {
+        const userKey = sessionStorage.getItem("ecoride_current_user_key");
+        const userType = sessionStorage.getItem("ecoride_current_user_type");
+        const creditsText = document.getElementById("credits-text");
+        const creditsPill = document.getElementById("credits-pill");
+        if (!creditsText || userType !== "passager" || !userKey) return;
+
+        const passagersRaw = localStorage.getItem("ecoride_passagers");
+        let passagers = [];
+        try {
+          passagers = JSON.parse(passagersRaw || "[]");
+        } catch {}
+        const u = passagers.find((p) => p?.cleConnexion === userKey);
+        const c = Number(u?.credits);
+        creditsText.textContent = Number.isFinite(c) ? `${c}c` : "0c";
+        if (creditsPill) {
+          creditsPill.textContent = Number.isFinite(c) ? `${c}C` : "0C";
+        }
+      }
+
+      // Requests + seat selection state
+      const REQUESTS_KEY = "ecoride_trip_requests";
+      const CHAT_KEY = "ecoride_chats";
+
+      function readJson(key, fallback) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (!raw) return fallback;
+          return JSON.parse(raw);
+        } catch {
+          return fallback;
+        }
+      }
+
+      function writeJson(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+
+      function getSeatSelectionByVoyageId() {
+        const userKey = sessionStorage.getItem("ecoride_current_user_key") || "anon";
+        return readJson(`ecoride_seats_${userKey}`, {});
+      }
+
+      function setSeatSelectionByVoyageId(next) {
+        const userKey = sessionStorage.getItem("ecoride_current_user_key") || "anon";
+        writeJson(`ecoride_seats_${userKey}`, next);
+      }
+
+      function getReservedSeatsByVoyageId() {
+        const requests = readJson(REQUESTS_KEY, []);
+        const reserved = {};
+        for (const r of requests) {
+          if (r?.status === "accepted" && r?.voyageId && Number.isFinite(Number(r?.seats))) {
+            reserved[r.voyageId] = (reserved[r.voyageId] || 0) + Number(r.seats);
+          }
+        }
+        return reserved;
+      }
+
+      function renderRequests() {
+        const el = document.getElementById("request-list");
+        if (!el) return;
+        const userKey = sessionStorage.getItem("ecoride_current_user_key");
+        const userType = sessionStorage.getItem("ecoride_current_user_type");
+        if (userType !== "passager" || !userKey) {
+          el.innerHTML = `<div class="request-empty">Connectez-vous pour voir vos demandes.</div>`;
+          return;
+        }
+
+        const requests = readJson(REQUESTS_KEY, []).filter((r) => r?.passagerKey === userKey);
+        if (!requests.length) {
+          el.innerHTML = `<div class="request-empty">Aucune demande pour le moment.</div>`;
+          return;
+        }
+
+        el.innerHTML = requests
+          .slice()
+          .reverse()
+          .map((r) => {
+            const status = r.status || "pending";
+            const showTrip = status === "accepted" && r.tripStatus === "started";
+            return `
+              <div class="request-card">
+                <div class="request-card__main">
+                  <div class="request-card__title">${escapeHtml(r.depart)} → ${escapeHtml(
+              r.arrivee
+            )}</div>
+                  <div class="request-card__meta">
+                    <span><img src="img/age.png" alt="" aria-hidden="true" class="inline-icon-img" />${escapeHtml(formatDate(r.date))}</span>
+                    <span><img src="img/clock.png" alt="" aria-hidden="true" class="inline-icon-img" />${escapeHtml(formatTime(r.heure))}</span>
+                    <span><img src="img/logo_passager_g.png" alt="" aria-hidden="true" class="inline-icon-img" />${escapeHtml(
+                      r.seats
+                    )} place(s)</span>
+                    <span class="request-status request-status--${escapeHtml(status)}">${escapeHtml(
+              status
+            )}</span>
+                  </div>
+                </div>
+                <div class="request-card__actions">
+                  <button class="chat-bubble" type="button" data-chat="${escapeHtml(
+                    r.id
+                  )}" title="Chat"><img src="img/mss.png" alt="" aria-hidden="true" class="chat-icon-img" /></button>
+                  ${
+                    showTrip
+                      ? `<button class="trip-open" type="button" data-trip="${escapeHtml(
+                          r.id
+                        )}" title="Trajet">Trajet</button>`
+                      : ""
+                  }
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      // Seat selector (0..max) updates localStorage and creates/updates pending request
+      trajetsContainer.addEventListener("click", (e) => {
+        const seatBtn = e.target.closest("button.trip-seat");
+        if (!seatBtn) return;
+
+        const idx = Number(seatBtn.dataset.seatIndex);
+        const max = Number(seatBtn.dataset.max);
+        const voyageId = seatBtn.dataset.voyageId;
+        const trajet = trajetsDisponibles[idx];
+        if (!trajet || !voyageId) return;
+
+        // Cycle 0..max
+        const current = Number(trajet.selectedSeats) || 0;
+        const next = max > 0 ? ((current + 1) % (max + 1)) : 0;
+
+        // Persist selection
+        const sel = getSeatSelectionByVoyageId();
+        sel[voyageId] = next;
+        setSeatSelectionByVoyageId(sel);
+
+        // Update in-memory and rerender row list
+        initTrajetsFromVoy();
+
+        // If authed passenger, update pending request record
+        const userKey = sessionStorage.getItem("ecoride_current_user_key");
+        const userType = sessionStorage.getItem("ecoride_current_user_type");
+        if (userType !== "passager" || !userKey) return;
+
+        let requests = readJson(REQUESTS_KEY, []);
+        const existingIndex = requests.findIndex(
+          (r) => r?.passagerKey === userKey && r?.voyageId === voyageId && r?.status === "pending"
+        );
+
+        if (next === 0) {
+          if (existingIndex >= 0) {
+            requests.splice(existingIndex, 1);
+            writeJson(REQUESTS_KEY, requests);
+            renderRequests();
+          }
+          return;
+        }
+
+        const base = {
+          id:
+            existingIndex >= 0
+              ? requests[existingIndex].id
+              : `REQ-${voyageId}-${userKey}-${Date.now()}`,
+          status: "pending",
+          voyageId,
+          passagerKey: userKey,
+          chauffeurKey: trajet.chauffeurKey,
+          chauffeurName: trajet.chauffeur,
+          depart: trajet.depart,
+          arrivee: trajet.arrivee,
+          date: trajet.date,
+          heure: trajet.heure,
+          seats: next,
+          vehiculeModele: trajet.vehicule,
+          vehiculeCouleur: trajet.vehiculeCouleur,
+          vehiculeImmat: trajet.vehiculeImmat,
+          vehiculeDateImmat: trajet.vehiculeDateImmat,
+          tripStatus: "not_started",
+          updatedAt: new Date().toISOString(),
+        };
+
+        if (existingIndex >= 0) {
+          requests[existingIndex] = { ...requests[existingIndex], ...base };
+        } else {
+          requests.push({ ...base, createdAt: new Date().toISOString() });
+        }
+        writeJson(REQUESTS_KEY, requests);
+        renderRequests();
+      });
+
+      // Chat modal (simple)
+      const chatModal = document.createElement("div");
+      chatModal.className = "chat-modal is-hidden";
+      chatModal.innerHTML = `
+        <div class="chat-modal__overlay"></div>
+        <div class="chat-modal__panel">
+          <div class="chat-modal__header">
+            <div class="chat-modal__title">Chat</div>
+            <button class="chat-modal__close" type="button">×</button>
+          </div>
+          <div class="chat-modal__messages" id="chat-messages"></div>
+          <form class="chat-modal__form" id="chat-form">
+            <input class="chat-modal__input" id="chat-input" placeholder="Votre message..." />
+            <button class="chat-modal__send" type="submit">Envoyer</button>
+          </form>
+        </div>
+      `;
+      document.body.appendChild(chatModal);
+
+      let activeChatId = null;
+      const closeChat = () => {
+        activeChatId = null;
+        chatModal.classList.add("is-hidden");
+      };
+      chatModal.querySelector(".chat-modal__overlay").addEventListener("click", closeChat);
+      chatModal.querySelector(".chat-modal__close").addEventListener("click", closeChat);
+
+      function readChats() {
+        return readJson(CHAT_KEY, {});
+      }
+      function writeChats(chats) {
+        writeJson(CHAT_KEY, chats);
+      }
+      function renderChat() {
+        const box = document.getElementById("chat-messages");
+        if (!box || !activeChatId) return;
+        const chats = readChats();
+        const messages = chats[activeChatId] || [];
+        box.innerHTML = messages
+          .map(
+            (m) => `
+              <div class="chat-msg chat-msg--${escapeHtml(m.from)}">
+                <div class="chat-msg__bubble">${escapeHtml(m.text)}</div>
+                <div class="chat-msg__meta">${escapeHtml(m.ts)}</div>
+              </div>
+            `
+          )
+          .join("");
+        box.scrollTop = box.scrollHeight;
+      }
+
+      document.getElementById("request-list").addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-chat]");
+        if (!btn) return;
+        activeChatId = btn.dataset.chat;
+        chatModal.classList.remove("is-hidden");
+        renderChat();
+      });
+
+      // Trip details modal
+      const tripModal = document.createElement("div");
+      tripModal.className = "trip-modal is-hidden";
+      tripModal.innerHTML = `
+        <div class="trip-modal__overlay"></div>
+        <div class="trip-modal__panel" id="trip-panel"></div>
+      `;
+      document.body.appendChild(tripModal);
+
+      const closeTrip = () => {
+        tripModal.classList.add("is-hidden");
+        const panel = document.getElementById("trip-panel");
+        if (panel) panel.innerHTML = "";
+      };
+      tripModal.querySelector(".trip-modal__overlay").addEventListener("click", closeTrip);
+
+      function renderTripCard(requestId) {
+        const panel = document.getElementById("trip-panel");
+        if (!panel) return;
+        const req = readJson(REQUESTS_KEY, []).find((r) => r?.id === requestId);
+        if (!req) return;
+
+        panel.innerHTML = `
+          <div class="trip-card">
+            <div class="trip-card__top">
+              <div class="trip-card__route">${escapeHtml(req.depart)} → ${escapeHtml(req.arrivee)}</div>
+              <button class="trip-card__close" type="button" data-close-trip>×</button>
+            </div>
+            <div class="trip-card__sub">
+              <span><img src="img/age.png" alt="" aria-hidden="true" class="inline-icon-img" />${escapeHtml(formatDate(req.date))}</span>
+              <span><img src="img/clock.png" alt="" aria-hidden="true" class="inline-icon-img" />${escapeHtml(formatTime(req.heure))}</span>
+            </div>
+            <div class="trip-card__rows">
+              <div class="trip-info"><span>Nombre de passagers</span><strong>${escapeHtml(
+                req.seats
+              )}</strong></div>
+              <div class="trip-info"><span>Véhicule</span><strong>${escapeHtml(
+                req.vehiculeModele || "—"
+              )}</strong></div>
+              <div class="trip-info"><span>Couleur</span><strong>${escapeHtml(
+                req.vehiculeCouleur || "—"
+              )}</strong></div>
+              <div class="trip-info"><span>Immatriculation</span><strong>${escapeHtml(
+                req.vehiculeImmat || "—"
+              )}</strong></div>
+              <div class="trip-info"><span>1ère immatriculation</span><strong>${escapeHtml(
+                req.vehiculeDateImmat || "—"
+              )}</strong></div>
+            </div>
+          </div>
+        `;
+      }
+
+      document.getElementById("request-list").addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-trip]");
+        if (!btn) return;
+        const id = btn.dataset.trip;
+        tripModal.classList.remove("is-hidden");
+        renderTripCard(id);
+      });
+
+      tripModal.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-close-trip]");
+        if (!btn) return;
+        closeTrip();
+      });
+
+      // Live refresh when chauffeur updates localStorage (other tab)
+      window.addEventListener("storage", (e) => {
+        if (e.key === REQUESTS_KEY) {
+          renderRequests();
+          initTrajetsFromVoy();
+        }
+      });
+
+      document.getElementById("chat-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = document.getElementById("chat-input");
+        const text = (input.value || "").trim();
+        if (!text || !activeChatId) return;
+        const chats = readChats();
+        const arr = chats[activeChatId] || [];
+        arr.push({
+          from: "passager",
+          text,
+          ts: new Date().toLocaleString("fr-FR"),
+        });
+        chats[activeChatId] = arr;
+        writeChats(chats);
+        input.value = "";
+        renderChat();
+      });
+
+      trajetsContainer.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-pay]");
+        if (!btn) return;
+
+        const payType = btn.dataset.pay;
+        const index = Number(btn.dataset.index);
+        const chosen = trajetsDisponibles[index];
+        if (!chosen) return;
+
+        const userKey = sessionStorage.getItem("ecoride_current_user_key");
+        const userType = sessionStorage.getItem("ecoride_current_user_type");
+        const isAuthed = userType === "passager" && Boolean(userKey);
+
+        // Paiement en euros: si authentifié, +10c
+        if (payType === "euro") {
+          if (!isAuthed) {
+            alert("Paiement en euros OK. Connectez-vous pour gagner des crédits (+10c).");
+            return;
+          }
+
+          let passagers = [];
+          try {
+            passagers = JSON.parse(localStorage.getItem("ecoride_passagers") || "[]");
+          } catch {
+            passagers = [];
+          }
+          const idx = passagers.findIndex((p) => p?.cleConnexion === userKey);
+          if (idx >= 0) {
+            const currentCredits = Number(passagers[idx]?.credits) || 0;
+            const newCredits = currentCredits + 10;
+            passagers[idx] = { ...passagers[idx], credits: newCredits };
+            localStorage.setItem("ecoride_passagers", JSON.stringify(passagers));
+            updateCreditsUI();
+            alert(`Paiement en euros OK. +10c gagnés. Nouveau solde: ${newCredits}c.`);
+          }
+          return;
+        }
+
+        if (payType !== "credits") return;
+        if (!isAuthed) {
+          alert("Option disponible uniquement dans l'espace passager connecté.");
+          return;
+        }
+
+        const cost = Number(btn.dataset.credits);
+        if (!Number.isFinite(cost)) return;
+
+        let passagers = [];
+        try {
+          passagers = JSON.parse(localStorage.getItem("ecoride_passagers") || "[]");
+        } catch {
+          passagers = [];
+        }
+        const idx = passagers.findIndex((p) => p?.cleConnexion === userKey);
+        if (idx < 0) {
+          alert("Utilisateur introuvable.");
+          return;
+        }
+
+        const currentCredits = Number(passagers[idx]?.credits) || 0;
+        if (currentCredits < cost) {
+          alert(`Crédits insuffisants. Solde: ${currentCredits}c, coût: ${cost}c.`);
+          return;
+        }
+
+        // Déduire le coût puis ajouter la récompense (+10c par voyage)
+        const newCredits = currentCredits - cost + 10;
+        passagers[idx] = { ...passagers[idx], credits: newCredits };
+        localStorage.setItem("ecoride_passagers", JSON.stringify(passagers));
+        updateCreditsUI();
+
+        alert(`Paiement accepté. Nouveau solde: ${newCredits}c (+10c gagné).`);
+      });
+
+      function performSearch() {
+        const depart = departInput.value.trim();
+        const arrivee = arriveeInput.value.trim();
+        const date = dateInput.value;
+        const heure = heureInput.value;
+
+        let filteredTrajets = [...trajetsDisponibles];
+
+        const gares = garesData?.Gares || [];
+        const departIsExact = gares.some((g) => g.toLowerCase() === depart.toLowerCase());
+        const arriveeIsExact = gares.some((g) => g.toLowerCase() === arrivee.toLowerCase());
+
+        if (depart) {
+          filteredTrajets = filteredTrajets.filter(
+            (t) =>
+              departIsExact
+                ? t.depart.toLowerCase() === depart.toLowerCase()
+                : t.depart.toLowerCase().includes(depart.toLowerCase())
+          );
+        }
+
+        if (arrivee) {
+          filteredTrajets = filteredTrajets.filter(
+            (t) =>
+              arriveeIsExact
+                ? t.arrivee.toLowerCase() === arrivee.toLowerCase()
+                : t.arrivee.toLowerCase().includes(arrivee.toLowerCase())
+          );
+        }
+
+        if (date) {
+          filteredTrajets = filteredTrajets.filter((t) => t.date === date);
+        }
+
+        if (heure) {
+          filteredTrajets = filteredTrajets.filter((t) => t.heure === heure);
+        }
+
+        displayTrajets(filteredTrajets);
+
+        if (depart || arrivee || date || heure) {
+          trajetsTitle.textContent = `${filteredTrajets.length} trajet(s) trouvé(s)`;
+        } else {
+          trajetsTitle.textContent = "Trajets disponibles";
+        }
+      }
+
+      // Exposer performSearch globalement pour l'autocomplétion
+      window.performSearch = performSearch;
+
+      searchButton.addEventListener("click", performSearch);
+
+      // Recherche automatique lors de la sélection dans l'autocomplétion
+      // Utiliser 'blur' pour les inputs texte après sélection
+      departInput.addEventListener("blur", () => {
+        setTimeout(() => performSearch(), 200);
+      });
+      arriveeInput.addEventListener("blur", () => {
+        setTimeout(() => performSearch(), 200);
+      });
+      dateInput.addEventListener("change", performSearch);
+      heureInput.addEventListener("change", performSearch);
+
+      // Afficher les trajets au chargement (sera remplacé par voy.json dès qu'il est chargé)
+      displayTrajets(trajetsDisponibles);
+      renderRequests();
+    </script>
+  </body>
+</html>
